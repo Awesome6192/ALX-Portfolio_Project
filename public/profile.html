@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            background: url('/images/FanFaction Background Image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        #container-profile {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            color: #FFD700;
+        }
+        #title {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        #title i {
+            margin-right: 10px;
+            color: #FFD700;
+        }
+        #profile-info {
+            margin-top: 20px;
+        }
+        #profile-info h3 {
+            color: #FFD700;
+            margin-bottom: 15px;
+        }
+        #profile-info p {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container-profile">
+        <div id="title">
+            <i class="material-icons">person</i> User Profile
+        </div>
+        <div id="profile-info">
+            <h3 id="username">Username: Loading...</h3>
+            <p id="email">Email: Loading...</p>
+            <p id="favorite-club">Favorite Club: Loading...</p>
+            <p id="member-since">Member Since: Loading...</p>
+        </div>
+    </div>
+    <script src="js/profile.js"></script>
+</body>
+</html>

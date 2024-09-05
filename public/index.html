@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FanFaction Feed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            background: url('/images/FanFaction Background Image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        .sidebar i {
+            font-size: 24px;
+            color: #FFD700;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        .sidebar i:hover {
+            color: #FFC107;
+        }
+        #container-main {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 50px auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            color: #FFD700;
+        }
+        #title {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        #title i {
+            margin-right: 10px;
+            color: #FFD700;
+        }
+        .post-creation-form {
+            margin-bottom: 20px;
+        }
+        .post-creation-form textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 10px;
+            font-size: 16px;
+            background: #333;
+            color: #fff;
+        }
+        .post-creation-form button {
+            background-color: #FFD700;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .post-creation-form button:hover {
+            background-color: #FFC107;
+        }
+        .post-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .post-item {
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .post-header h3 {
+            margin: 0;
+            color: #FFD700;
+        }
+        .post-content {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .post-footer {
+            display: flex;
+            gap: 15px;
+        }
+        .post-footer button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .post-footer button:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="index.html"><i class="material-icons" onclick="refreshPage()">home</i></a>
+        <a href="search.html"><i class="material-icons">search</i></a>
+        <a href="chat.html"><i class="material-icons">chat</i></a>
+        <a href="notifications.html"><i class="material-icons">notifications</i></a>
+        <a href="profile.html"><i class="material-icons">account_circle</i></a>
+        <i class="material-icons">settings</i>
+    </div>
+    <div id="container-main">
+        <div id="title">
+            <i class="material-icons">sports_soccer</i> FanFaction Feed
+        </div>
+        <div class="post-creation-form">
+            <textarea id="post-content" placeholder="What's happening?"></textarea>
+            <button id="submit-post">Post</button>
+        </div>
+        <ul id="post-list" class="post-list">
+            <!-- Posts will be inserted here by JavaScript -->
+        </ul>
+    </div>
+    <script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+    <script src="js/feed.js"></script>
+</body>
+</html>

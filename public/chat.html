@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FanFaction Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            background: url('/images/FanFaction Background Image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        .sidebar i {
+            font-size: 24px;
+            color: #FFD700;
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        .sidebar i:hover {
+            color: #FFC107;
+        }
+        #chat-container {
+            margin-left: 60px; /* Sidebar width */
+            width: calc(100% - 60px);
+            display: flex;
+        }
+        #chat-list {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 100vh;
+            overflow-y: auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        #chat-list .chat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #chat-list .chat-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        #chat-window {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            height: 100vh;
+        }
+        #chat-header {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        #chat-header i {
+            margin-right: 10px;
+            color: #FFD700;
+        }
+        #message-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        .message.sent {
+            align-self: flex-end;
+            background: #007bff;
+            color: #fff;
+        }
+        .message.received {
+            align-self: flex-start;
+            background: #333;
+        }
+        #message-input {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+        }
+        #message-content {
+            height: 50px;
+            padding: 10px;
+            border-radius: 20px;
+            border: none;
+            background: #333;
+            color: #fff;
+            resize: none;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+        #send-message {
+            align-self: flex-end;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        #send-message:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="index.html"><i class="material-icons">home</i></a>
+        <a href="search.html"><i class="material-icons">search</i></a>
+        <a href="chat.html"><i class="material-icons">chat</i></a>
+        <i class="material-icons">notifications</i>
+        <a href="profile.html"><i class="material-icons">account_circle</i></a>
+        <i class="material-icons">settings</i>
+    </div>
+    <div id="chat-container">
+        <div id="chat-list">
+            <!-- Placeholder for future chat items -->
+        </div>
+        <div id="chat-window">
+            <div id="chat-header">
+                <i class="material-icons">chat</i> Chat Room
+            </div>
+            <div id="message-list">
+                <!-- Messages will be inserted here by JavaScript -->
+            </div>
+            <div id="message-input">
+                <textarea id="message-content" placeholder="Type a message..."></textarea>
+                <button id="send-message">Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const messageList = document.getElementById('message-list');
+        const messageContent = document.getElementById('message-content');
+        const sendMessageButton = document.getElementById('send-message');
+        const chatHeader = document.getElementById('chat-header');
+        let currentChatId = 'general';
+        let currentUserId = 'user123';
+
+        function openChat(chatId) {
+            currentChatId = chatId;
+            chatHeader.innerHTML = `<i class="material-icons">chat</i> ${chatId}`;
+            socket.emit('joinChat', chatId);
+
+            // Fetch and display messages for the selected chat
+            fetch(`/api/messages/${chatId}`)
+                .then(response => response.json())
+                .then(messages => {
+                    messageList.innerHTML = messages.map(msg => `
+                        <div class="message ${msg.userId === currentUserId ? 'sent' : 'received'}">
+                            <p>${msg.message}</p>
+                        </div>
+                    `).join('');
+                    messageList.scrollTop = messageList.scrollHeight;
+                });
+        }
+
+        function sendMessage() {
+            const message = messageContent.value.trim();
+            if (message) {
+                socket.emit('sendMessage', {
+                    chatId: currentChatId,
+                    userId: currentUserId,
+                    message
+                });
+                messageContent.value = '';
+            }
+        }
+
+        socket.on('receiveMessage', (data) => {
+            if (data.chatId === currentChatId) {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${data.userId === currentUserId ? 'sent' : 'received'}`;
+                messageElement.innerHTML = `<p>${data.message}</p>`;
+                messageList.appendChild(messageElement);
+                messageList.scrollTop = messageList.scrollHeight;
+            }
+        });
+
+        sendMessageButton.addEventListener('click', sendMessage);
+
+        // Optionally, you can set an initial chat room or add logic to dynamically populate the chat list
+        openChat(currentChatId);
+    </script>
+</body>
+</html>

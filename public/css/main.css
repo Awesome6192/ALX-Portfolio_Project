@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+#container-login, #container-register, #container-main, #container-profile {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="submit"], button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+input[type="submit"]:hover, button:hover {
+    background-color: #0056b3;
+}
+
+.input-addon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.input {
+    position: relative;
+    margin: 10px 0;
+}
+
+.remember-me, .forgot-password, .privacy, .register {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.transaction:last-child {
+    border-bottom: none;
+}
+
+.material-icons {
+    vertical-align: middle;
+}
+
+#title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.club-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.club-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.club-item:last-child {
+    border-bottom: none;
+}

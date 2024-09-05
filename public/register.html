@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            background: url('/images/FanFaction Background Image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        #container-register {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 400px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        #title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+        .input {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .input-addon {
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #FFD700;
+            font-size: 24px;
+        }
+        input {
+            width: 100%;
+            padding: 10px 15px 10px 65px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+            color: #333;
+            font-weight: bold;
+            box-sizing: border-box;
+        }
+        input::placeholder {
+            color: #666;
+            font-weight: bold;
+        }
+        input:focus {
+            border-color: #FFD700;
+            outline: none;
+        }
+        .remember-me {
+            margin: 10px 0;
+            color: #ddd;
+        }
+        .remember-me input {
+            margin-right: 5px;
+        }
+        .remember-me span {
+            font-weight: bold;
+        }
+        input[type="submit"] {
+            background-color: #FFD700;
+            color: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        input[type="submit"]:hover {
+            background-color: #FFC107;
+        }
+        .privacy, .register {
+            margin-top: 20px;
+            color: #ddd;
+        }
+        .privacy a, .register a {
+            color: #FFD700;
+            text-decoration: none;
+        }
+        .register a {
+            display: inline-block;
+            margin-top: 10px;
+        }
+        #register-link {
+            background-color: #333;
+            color: #FFD700;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #register-link:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div id="container-register">
+        <div id="title">
+            <i class="material-icons">sports_soccer</i> Register
+        </div>
+        <form id="register-form">
+            <div class="input">
+                <i class="material-icons input-addon">email</i>
+                <input id="email" name="email" placeholder="Email" type="email" required class="validate" autocomplete="off">
+            </div>
+            <div class="input">
+                <i class="material-icons input-addon">face</i>
+                <input id="username" name="username" placeholder="Username" type="text" required class="validate" autocomplete="off">
+            </div>
+            <div class="input">
+                <i class="material-icons input-addon">vpn_key</i>
+                <input id="password" name="password" placeholder="Password" type="password" required class="validate" autocomplete="off">
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" name="tos">
+                <span>I accept Terms of Service</span>
+            </div>
+            <input type="submit" value="Register">
+        </form>
+        <div class="privacy">
+            <a href="#">Privacy Policy</a>
+        </div>
+        <div class="register">
+            <span>Do you already have an account?</span>
+            <a href="./login.html"><button id="register-link">Log In here</button></a>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
