@@ -28,15 +28,7 @@ const Comment = sequelize.define('Comment', {
     comment_text: {
         type: DataTypes.TEXT,
         allowNull: false,
-    },
-    created_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
-    updated_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
+    }
 }, {
     timestamps: true,
     underscored: true,

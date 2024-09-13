@@ -33,11 +33,7 @@ const Like = sequelize.define('Like', {
             model: Comment,
             key: 'comment_id',
         },
-    },
-    created_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
+    }
 }, {
     timestamps: false,
     underscored: true,

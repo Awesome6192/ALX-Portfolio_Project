@@ -5,24 +5,17 @@ const Discussion = require('./models/discussion');
 const Like = require('./models/like');
 const Comment = require('./models/comment');
 const Notification = require('./models/notification');
+const Post = require('./models/post');
+const Message = require('./models/message');
+const Settings = require('./models/settings'); // Include Settings model
 
-// Define associations
-// (Assuming that associations are defined in a separate file or here)
-
-// Example associations (adapt according to your actual model relationships)
-User.hasMany(Like, { foreignKey: 'user_id' });
-Like.belongsTo(User, { foreignKey: 'user_id' });
-
-User.hasMany(Comment, { foreignKey: 'user_id' });
-Comment.belongsTo(User, { foreignKey: 'user_id' });
-
-User.hasMany(Notification, { foreignKey: 'user_id' });
-Notification.belongsTo(User, { foreignKey: 'user_id' });
+// Import associations
+require('./models/associations'); // This should define all necessary associations
 
 // Sync all models with the database
 const syncDatabase = async () => {
     try {
-        // Sync models without dropping existing tables
+        // Sync models without dropping existing tables (use migrations in production)
         await sequelize.sync({ alter: true });
         console.log('Database synchronized');
     } catch (error) {

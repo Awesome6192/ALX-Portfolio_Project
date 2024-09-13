@@ -1,118 +1,98 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const registerForm = document.getElementById('register-form');
+    // Login Form Handling
     const loginForm = document.getElementById('login-form');
-    const clubList = document.getElementById('club-list');
-    const profileInfo = document.getElementById('profile-info');
-
-    if (registerForm) {
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(registerForm);
-            const email = formData.get('email');
-            const username = formData.get('username');
-            const password = formData.get('password');
-
-            try {
-                const response = await fetch('/api/user/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, username, password })
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    alert('Registration successful');
-                    window.location.href = 'login.html'; // Redirect to login page after successful registration
-                } else {
-                    alert(`Registration failed: ${data.errors.map(err => err.msg).join(', ')}`);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while registering. Please try again.');
-            }
-        });
-    }
 
     if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(loginForm);
-            const username = formData.get('username');
-            const password = formData.get('password');
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const emailOrUsername = document.getElementById('identifier').value;
+            const password = document.getElementById('password').value;
 
             try {
                 const response = await fetch('/api/user/login', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
-                    body: JSON.stringify({ username, password }),
-                    credentials: 'include' // Ensure cookies are sent with the request
+                    body: JSON.stringify({ identifier: emailOrUsername, password })
                 });
-                const data = await response.json();
+
                 if (response.ok) {
-                    sessionStorage.setItem('userId', data.userId); // Store user ID for future use
-                    window.location.href = 'index.html'; // Redirect to home page after successful login
+                    window.location.href = '/index.html'; // Redirect on successful login
                 } else {
-                    alert(`Login failed: ${data.message}`);
+                    const data = await response.json();
+                    alert(data.errors[0]?.msg || 'Unknown error');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred while logging in. Please try again.');
+                console.error('Error during login:', error);
+                alert('An error occurred while logging in.');
             }
         });
     }
 
-    if (clubList) {
-        const loadClubs = async () => {
+    // Registration Form Handling
+    const registerForm = document.getElementById('register-form');
+
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return; // Stop form submission
+            }
+
             try {
-                const response = await fetch('/api/clubs');
-                const data = await response.json();
+                const response = await fetch('/api/user/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ email, username, password })
+                });
+
                 if (response.ok) {
-                    clubList.innerHTML = data.clubs.map(club => `
-                        <li class="club-item">
-                            <span>${club.name}</span>
-                            <span>${club.country}</span>
-                        </li>
-                    `).join('');
+                    window.location.href = '/index.html'; // Redirect on successful registration
                 } else {
-                    console.log('Error fetching clubs:', data);
-                    clubList.innerHTML = '<li>No clubs found.</li>';
+                    const data = await response.json();
+                    alert(data.errors[0]?.msg || 'Unknown error');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                clubList.innerHTML = '<li>Error loading clubs.</li>';
+                console.error('Error during registration:', error);
+                alert('An error occurred while registering.');
             }
-        };
-
-        loadClubs();
+        });
     }
 
-    if (profileInfo) {
-        const loadProfile = async () => {
+    // Logout Button Handling
+    const logoutButton = document.getElementById('logout-button'); // Ensure this exists in your HTML
+
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async () => {
             try {
-                const userId = sessionStorage.getItem('userId');
-                const response = await fetch(`/api/user/profile?userId=${userId}`, {
-                    credentials: 'include' // Ensure cookies are sent with the request
+                const response = await fetch('/api/user/logout', {
+                    method: 'POST',
+                    credentials: 'include' // Ensure cookies are included
                 });
-                const data = await response.json();
+
                 if (response.ok) {
-                    profileInfo.innerHTML = `
-                        <p><strong>Username:</strong> ${data.username}</p>
-                        <p><strong>Email:</strong> ${data.email}</p>
-                        <p><strong>Favorite Club:</strong> ${data.favoriteClub}</p>
-                    `;
+                    window.location.href = '/login.html'; // Redirect on successful logout
                 } else {
-                    console.log('Error fetching profile:', data);
-                    profileInfo.innerHTML = '<p>No profile information found.</p>';
+                    alert('Error logging out');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                profileInfo.innerHTML = '<p>Error loading profile information.</p>';
+                console.error('Error during logout:', error);
+                alert('An error occurred while logging out.');
             }
-        };
-
-        loadProfile();
+        });
     }
 });

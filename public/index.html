@@ -8,77 +8,118 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body {
-            background: url('/images/FanFaction Background Image.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background-color: rgba(99, 89, 89, 0.8); /* Match the black background from search.html */
             font-family: 'Arial', sans-serif;
             color: #fff;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            height: 100vh; /* Ensure full viewport height is covered */
         }
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 60px;
+            width: 200px;
             height: 100vh;
             background: rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
+            align-items: right;
+            padding-top: 40px;
+        }
+        .sidebar a {
+            text-decoration: none;
+            display: flex;
             align-items: center;
-            padding-top: 20px;
+            padding: 15px 20px;
+            color: #FFD700;
+            font-size: 18px;
         }
         .sidebar i {
             font-size: 24px;
             color: #FFD700;
-            margin: 15px 0;
+            margin: 10px 0;
             cursor: pointer;
         }
         .sidebar i:hover {
             color: #FFC107;
         }
+
         #container-main {
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            padding: 20px;
+            background: rgb(10, 10, 10); /* Dark background */
+            width: 100%;
             max-width: 800px;
-            margin: 50px auto;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            color: #FFD700; /* Golden text */
+            display: flex;
+            flex-direction: column;
+            justify-content: top; /* Align content to the top */
+            margin: 0;
+            min-height: 100vh; /* Ensure the container covers at least the full viewport height */
+            overflow-y: auto; /* Enable scrolling if content exceeds viewport height */
+            box-shadow: none; /* Remove box shadow */
+        }
+
+        #title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             color: #FFD700;
         }
-        #title {
-            font-size: 30px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-        }
         #title i {
-            margin-right: 10px;
+            margin-right: 5px;
             color: #FFD700;
         }
         .post-creation-form {
             margin-bottom: 20px;
         }
         .post-creation-form textarea {
-            width: 100%;
-            height: 100px;
-            padding: 10px;
+            width: 97%;
+            height: 80px;
+            padding: 8px;
             border-radius: 5px;
             border: none;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 16px;
+            background: #ffffff;
+            color: #000000;
+        }
+        .file-upload {
+            margin-bottom: 5px;
+        }
+        .upload-label {
+            display: block;
+            margin-bottom: 1px;
+            color: #FFD700; /* Golden color for the label */
+            font-size: 16px;
+        }
+        input[type="file"] {
+            display: block;
+            width: 25%;
+            padding: 1px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
             background: #333;
             color: #fff;
+            font-size: 14px;
         }
         .post-creation-form button {
             background-color: #FFD700;
             color: #000;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 10px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
+            display: block; /* Make it a block element */
+            margin: 0 auto; /* Center horizontally */
         }
         .post-creation-form button:hover {
             background-color: #FFC107;
@@ -114,6 +155,10 @@
             font-size: 16px;
             margin-bottom: 10px;
         }
+        .post-media {
+            max-width: 100%;
+            margin-top: 10px;
+        }
         .post-footer {
             display: flex;
             gap: 15px;
@@ -129,16 +174,44 @@
         .post-footer button:hover {
             background: rgba(255, 255, 255, 0.5);
         }
+        .comments-section {
+            margin-top: 10px;
+        }
+        .comment-item {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .comment-input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            background-color: #333;
+            color: #FFD700;
+        }
+        .submit-comment-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        .submit-comment-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <a href="index.html"><i class="material-icons" onclick="refreshPage()">home</i></a>
-        <a href="search.html"><i class="material-icons">search</i></a>
-        <a href="chat.html"><i class="material-icons">chat</i></a>
-        <a href="notifications.html"><i class="material-icons">notifications</i></a>
-        <a href="profile.html"><i class="material-icons">account_circle</i></a>
-        <i class="material-icons">settings</i>
+        <a href="index.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
+        <a href="search.html"><i class="material-icons">search</i> Search</a>
+        <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
+        <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>
+        <a href="notifications.html"><i class="material-icons">notifications</i> Notifications</a>
+        <a href="profile.html"><i class="material-icons">account_circle</i> Profile</a>
+        <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
     <div id="container-main">
         <div id="title">
@@ -146,10 +219,42 @@
         </div>
         <div class="post-creation-form">
             <textarea id="post-content" placeholder="What's happening?"></textarea>
+            <div class="file-upload">
+                <label for="image-upload" class="upload-label">Upload Image</label>
+                <input type="file" id="image-upload" accept="image/*">
+            </div>
+            <div class="file-upload">
+                <label for="video-upload" class="upload-label">Upload Video</label>
+                <input type="file" id="video-upload" accept="video/*">
+            </div>
             <button id="submit-post">Post</button>
         </div>
         <ul id="post-list" class="post-list">
-            <!-- Posts will be inserted here by JavaScript -->
+            <!-- Example Post Structure -->
+            <li class="post-item">
+                <div class="post-header">
+                    <img src="path-to-user-avatar.jpg" alt="User Avatar">
+                    <h3>User Name</h3>
+                </div>
+                <div class="post-content">
+                    <p>This is a sample post content. It might include text, images, or videos.</p>
+                    <img class="post-media" src="path-to-post-image.jpg" alt="Post Image">
+                    <video class="post-media" controls>
+                        <source src="path-to-post-video.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="post-footer">
+                    <button class="like-button">Like</button>
+                    <button class="comment-button">Comment</button>
+                </div>
+                <div class="comments-section">
+                    <div class="comment-item">Comment 1: This is a sample comment.</div>
+                    <div class="comment-item">Comment 2: Another comment.</div>
+                    <textarea class="comment-input" placeholder="Add a comment..."></textarea>
+                    <button class="submit-comment-button">Submit</button>
+                </div>
+            </li>
+            <!-- More posts will be inserted here by JavaScript -->
         </ul>
     </div>
     <script>

@@ -1,91 +1,123 @@
+/* Existing styles */
 body {
-    font-family: Arial, sans-serif;
+    background-color: #000; /* Black background for the whole page */
+    font-family: 'Arial', sans-serif;
+    color: #fff;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
 }
 
-#container-login, #container-register, #container-main, #container-profile {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+#container-login {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 50px;
+    z-index: 1;
+    width: 270px;
+    margin: 50px auto;
+    text-align: center;
 }
 
-input[type="text"], input[type="password"], input[type="email"] {
-    width: calc(100% - 40px);
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+#title {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #000000;
 }
 
-input[type="submit"], button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    margin: 10px 0;
-}
-
-input[type="submit"]:hover, button:hover {
-    background-color: #0056b3;
+.input {
+    margin-bottom: 10px;
+    position: relative;
+    width: 110%;
 }
 
 .input-addon {
     position: absolute;
-    left: 10px;
+    left: 15px;
     top: 50%;
     transform: translateY(-50%);
+    color: #000000;
+    font-size: 26px;
 }
 
-.input {
-    position: relative;
+input {
+    width: 100%;
+    padding: 10px 15px 10px 50px; /* Adjusted padding to fit icon */
+    border: 2px solid #000000;
+    border-radius: 5px;
+    background: #fff;
+    color: #333;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+input::placeholder {
+    color: #666;
+    font-weight: bold;
+}
+
+input:focus {
+    border-color: #FFD700;
+    outline: none;
+}
+
+.remember-me {
     margin: 10px 0;
+    color: #000000;
+    font-weight: bold;
 }
 
-.remember-me, .forgot-password, .privacy, .register {
-    text-align: center;
-    margin: 10px 0;
+.remember-me input {
+    margin-right: 1px;
 }
 
-.transaction {
-    display: flex;
-    justify-content: space-between;
+.remember-me span {
+    font-weight: bold;
+}
+
+input[type="submit"] {
+    background-color: #FFD700;
+    color: #000;
+    border: none;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-.transaction:last-child {
-    border-bottom: none;
+input[type="submit"]:hover {
+    background-color: #FFC107;
 }
 
-.material-icons {
-    vertical-align: middle;
+.forgot-password, .privacy, .register {
+    margin-top: 20px;
+    color: #ddd;
 }
 
-#title {
-    font-size: 24px;
-    margin-bottom: 20px;
+.forgot-password a, .privacy a, .register span {
+    color: #0004ff; /* Set text color to black */
 }
 
-.club-list {
-    list-style-type: none;
-    padding: 0;
+.register a {
+    display: inline-block;
+    margin-top: 10px;
 }
 
-.club-item {
-    display: flex;
-    justify-content: space-between;
+#register-link {
+    background-color: #333;
+    color: #FFD700;
+    border: none;
     padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
-.club-item:last-child {
-    border-bottom: none;
+#register-link:hover {
+    background-color: #444;
+}
+
+/* New styles for specific text color changes */
+.login-register-text {
+    color: #000000; /* Black color for text */
 }

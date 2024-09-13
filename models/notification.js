@@ -23,14 +23,10 @@ const Notification = sequelize.define('Notification', {
     is_read: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
-    },
-    created_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
+    }
 }, {
-    timestamps: false,
-    underscored: true,
+    timestamps: false, // No automatic handling of createdAt and updatedAt
+    underscored: true, // Uses snake_case for column names
 });
 
 module.exports = Notification;

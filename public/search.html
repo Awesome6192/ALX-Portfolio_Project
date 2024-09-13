@@ -4,65 +4,135 @@
     <meta charset="UTF-8">
     <title>Search</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body {
-            background: url('/images/FanFaction Background Image.jpg') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Arial', sans-serif;
-            color: #fff;
+            background-color: rgba(99, 89, 89, 0.8);
             margin: 0;
             padding: 0;
-        }
-        #container-search {
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
-            padding: 20px;
-            max-width: 800px;
-            margin: 50px auto;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-            color: #FFD700;
-        }
-        #title {
-            font-size: 30px;
-            font-weight: bold;
-            margin-bottom: 20px;
             display: flex;
-            align-items: center;
-        }
-        #title i {
-            margin-right: 10px;
-            color: #FFD700;
-        }
-        .search-form {
-            margin-bottom: 20px;
-        }
-        .search-form input[type="text"] {
-            width: calc(100% - 120px);
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            font-size: 16px;
-            background: #333;
+            justify-content: center;
+            align-items: stretch;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
             color: #fff;
         }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            padding-top: 40px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #FFD700;
+            font-size: 18px;
+        }
+
+        .sidebar i {
+            font-size: 24px;
+            color: #FFD700;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .sidebar i:hover {
+            color: #FFC107;
+        }
+
+        #container-search {
+            background-color: rgb(10, 10, 10);
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            color: #FFD700;
+            display: flex;
+            flex-direction: column;
+            justify-content: top;
+            margin: 0;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        #title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFD700;
+        }
+
+        #title i {
+            margin-right: 5px;
+            color: #FFD700;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-form input[type="text"] {
+            width: calc(100% - 120px);
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            background: #ffffff;
+            color: #000;
+        }
+
         .search-form button {
             background-color: #FFD700;
             color: #000;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 10px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
         }
+
         .search-form button:hover {
             background-color: #FFC107;
+        }
+
+        #search-results {
+            width: 60%;
+            margin-top: 1px;
+            padding: 150px;
+            border: 1px solid #FFD700;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            max-height: 500px; /* Adjust the height as needed */
+            overflow-y: auto; /* Enables vertical scrolling */
         }
     </style>
 </head>
 <body>
+    <div class="sidebar">
+        <a href="index.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
+        <a href="search.html"><i class="material-icons">search</i> Search</a>
+        <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
+        <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>
+        <a href="notifications.html"><i class="material-icons">notifications</i> Notifications</a>
+        <a href="profile.html"><i class="material-icons">account_circle</i> Profile</a>
+        <a href="setting.html"><i class="material-icons">settings</i> Settings</a>
+    </div>
+    
     <div id="container-search">
         <div id="title">
             <i class="material-icons">search</i> Search
@@ -75,6 +145,12 @@
             <!-- Search results will be displayed here -->
         </div>
     </div>
+
+    <script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
     <script src="js/search.js"></script>
 </body>
 </html>

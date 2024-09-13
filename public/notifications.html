@@ -4,94 +4,116 @@
     <meta charset="UTF-8">
     <title>Notifications</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body {
-            background: url('/images/FanFaction Background Image.jpg') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Arial', sans-serif;
-            color: #fff;
+            background-color: rgba(99, 89, 89, 0.8); /* Consistent background color */
             margin: 0;
             padding: 0;
             display: flex;
+            justify-content: center;
+            align-items: stretch;
             height: 100vh;
-            flex-direction: column;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
         }
+
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 60px;
+            width: 200px;
             height: 100vh;
             background: rgba(0, 0, 0, 0.8);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
+            padding-top: 40px;
         }
+
+        .sidebar a {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 25px 40px;
+            color: #FFD700;
+            font-size: 18px;
+        }
+
         .sidebar i {
             font-size: 24px;
             color: #FFD700;
-            margin: 15px 0;
+            margin-right: 10px;
             cursor: pointer;
         }
+
         .sidebar i:hover {
             color: #FFC107;
         }
-        #notifications-container {
-            margin-left: 60px;
-            width: calc(100% - 60px);
+
+        #container-notifications {
+            background-color: rgb(10, 10, 10);
+            width: calc(100% - 200px); /* Adjust for sidebar width */
+            max-width: 800px;
+            height: 100%;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
+            color: #fff;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            justify-content: flex-start;
+            overflow-y: auto;
         }
+
         #notifications-header {
-            font-size: 24px;
+            font-size: 30px;
             font-weight: bold;
+            margin-bottom: 30px;
             display: flex;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            color: #FFD700;
         }
+
         #notifications-header i {
             margin-right: 10px;
             color: #FFD700;
         }
+
         .notification {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 15px;
             border-radius: 10px;
+            margin-bottom: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            max-width: 100%;
-            word-wrap: break-word;
         }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <a href="index.html"><i class="material-icons">home</i></a>
-        <a href="search.html"><i class="material-icons">search</i></a>
-        <a href="chat.html"><i class="material-icons">chat</i></a>
-        <a href="notifications.html"><i class="material-icons">notifications</i></a>
-        <a href="profile.html"><i class="material-icons">account_circle</i></a>
-        <i class="material-icons">settings</i>
+        <a href="index.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
+        <a href="search.html"><i class="material-icons">search</i> Search</a>
+        <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
+        <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>
+        <a href="notifications.html"><i class="material-icons">notifications</i> Notifications</a>
+        <a href="profile.html"><i class="material-icons">account_circle</i> Profile</a>
+        <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
-    <div id="notifications-container">
+
+    <div id="container-notifications">
         <div id="notifications-header">
             <i class="material-icons">notifications</i> Notifications
         </div>
-        <!-- Notifications will be inserted here -->
+        <!-- Notifications will be displayed here -->
     </div>
 
     <script>
+        function refreshPage() {
+            window.location.reload();
+        }
+
         // Connect to the WebSocket server
         const socket = new WebSocket('ws://localhost:3000');
 
-        // When a message is received from the WebSocket server
+        // Handle incoming messages from WebSocket
         socket.addEventListener('message', function(event) {
             try {
                 const notification = JSON.parse(event.data);
@@ -101,21 +123,21 @@
             }
         });
 
-        // Function to display a new notification
+        // Function to display a notification
         function displayNotification(notification) {
-            const container = document.getElementById('notifications-container');
+            const container = document.getElementById('container-notifications');
             const notificationElement = document.createElement('div');
             notificationElement.className = 'notification';
             notificationElement.innerHTML = `<p>${notification.message}</p>`;
             container.appendChild(notificationElement);
         }
 
-        // Handle connection errors
+        // Handle WebSocket errors
         socket.addEventListener('error', function(event) {
             console.error('WebSocket error:', event);
         });
 
-        // Handle connection closure
+        // Handle WebSocket connection closure
         socket.addEventListener('close', function(event) {
             console.log('WebSocket connection closed:', event);
         });

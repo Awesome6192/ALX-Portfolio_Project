@@ -2,69 +2,112 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { check, validationResult } = require('express-validator');
 const { User } = require('../models/associations');
 const authMiddleware = require('../middleware/authMiddleware');
 const { Op } = require('sequelize');
+const { check, validationResult } = require('express-validator');
 
-// Registration route
-router.post('/register', [
-    check('email').isEmail().withMessage('Please provide a valid email address'),
-    check('username').isAlphanumeric().withMessage('Username needs to be alphanumeric'),
-    check('email').custom(async (value) => {
-        const user = await User.findOne({ where: { email: value } });
-        if (user) {
-            throw new Error('Email already exists!');
-        }
-    }),
-    check('username').custom(async (value) => {
-        const user = await User.findOne({ where: { username: value } });
-        if (user) {
-            throw new Error('Username already exists!');
-        }
-    })
-], async (req, res) => {
+// Middleware for validation
+const registerValidationRules = () => {
+    return [
+        check('email').isEmail().withMessage('Invalid email address').normalizeEmail(),
+        check('username').isAlphanumeric().withMessage('Username needs to be alphanumeric').trim().escape(),
+        check('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
+    ];
+};
+
+const loginValidationRules = () => {
+    return [
+        check('identifier').notEmpty().withMessage('Email or Username is required'),
+        check('password').notEmpty().withMessage('Password is required')
+    ];
+};
+
+const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
+    next();
+};
 
+// Registration route
+router.post('/register', registerValidationRules(), validate, async (req, res) => {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const { email, username, password } = req.body;
+
+        // Check if email or username already exists
+        const existingUser = await User.findOne({
+            where: {
+                [Op.or]: [
+                    { email },
+                    { username }
+                ]
+            }
+        });
+
+        if (existingUser) {
+            return res.status(400).json({ errors: [{ msg: 'Email or Username already exists' }] });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({
-            username: req.body.username,
-            email: req.body.email,
+            username,
+            email,
             password: hashedPassword
         });
         res.status(201).json(newUser);
     } catch (error) {
         console.error('Error registering new user:', error.message);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ errors: [{ msg: 'Internal Server Error' }] });
     }
 });
 
-// Login route
-router.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+// Login route (supports both email and username)
+router.post('/login', loginValidationRules(), validate, async (req, res) => {
+    const { identifier, password } = req.body; // 'identifier' can be email or username
 
     try {
-        const user = await User.findOne({ where: { username } });
+        const user = await User.findOne({
+            where: {
+                [Op.or]: [
+                    { email: identifier },
+                    { username: identifier }
+                ]
+            }
+        });
+
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json({ errors: [{ msg: 'Invalid username or password' }] });
+            return res.status(401).json({ errors: [{ msg: 'Invalid email/username or password' }] });
         }
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: false,
             sameSite: 'strict'
         });
 
-        res.json({ userId: user.id });
+        res.json({ userId: user.id }); // Response without token in the body
     } catch (error) {
         console.error('Error logging in:', error.message);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ errors: [{ msg: 'Internal Server Error' }] });
+    }
+});
+
+// Logout route
+router.post('/logout', (req, res) => {
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'strict'
+        });
+        res.status(200).json({ msg: 'Logged out successfully' });
+    } catch (error) {
+        console.error('Error logging out:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
@@ -78,20 +121,15 @@ router.get('/profile', authMiddleware, async (req, res) => {
         res.json(user);
     } catch (error) {
         console.error('Error fetching user profile:', error.message);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 router.put('/profile', [
     authMiddleware,
-    check('email').optional().isEmail().withMessage('Please provide a valid email address'),
-    check('username').optional().isAlphanumeric().withMessage('Username needs to be alphanumeric')
-], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
+    check('email').optional().isEmail().withMessage('Invalid email address').normalizeEmail(),
+    check('username').optional().isAlphanumeric().withMessage('Username needs to be alphanumeric').trim().escape()
+], validate, async (req, res) => {
     try {
         const user = await User.findByPk(req.user.id);
         if (!user) {
@@ -105,7 +143,7 @@ router.put('/profile', [
         res.json(user);
     } catch (error) {
         console.error('Error updating user profile:', error.message);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
@@ -117,7 +155,6 @@ router.get('/search', async (req, res) => {
             return res.status(400).json({ error: 'Query parameter is required' });
         }
 
-        // Perform search query
         const users = await User.findAll({
             where: {
                 [Op.or]: [
@@ -130,7 +167,7 @@ router.get('/search', async (req, res) => {
         res.json(users);
     } catch (error) {
         console.error('Error searching users:', error.message);
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

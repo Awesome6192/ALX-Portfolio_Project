@@ -32,18 +32,10 @@ const Discussion = sequelize.define('Discussion', {
     body: {
         type: DataTypes.TEXT,
         allowNull: false,
-    },
-    created_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
-    updated_at: {
-        type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-    },
+    }
 }, {
-    timestamps: true,
-    underscored: true,
+    timestamps: true, // Automatically handles createdAt and updatedAt
+    underscored: true, // Uses snake_case for column names
 });
 
 module.exports = Discussion;

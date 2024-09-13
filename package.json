@@ -24,7 +24,6 @@
     "mysql2": "^3.11.0",
     "sequelize": "^6.37.3",
     "socket.io": "^4.7.5",
-    "twitter-api-v2": "^1.17.2",
     "ws": "^8.18.0"
   },
   "devDependencies": {
