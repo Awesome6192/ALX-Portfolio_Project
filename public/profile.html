@@ -5,96 +5,11 @@
     <title>User Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        body {
-            background-color: rgba(99, 89, 89, 0.8); /* Match background color */
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: stretch;
-            height: 100vh;
-            font-family: 'Arial', sans-serif;
-            color: #fff;
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200px; /* Match sidebar width */
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
-            padding-top: 40px; /* Match padding */
-        }
-
-        .sidebar a {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            color: #FFD700;
-            font-size: 18px;
-        }
-
-        .sidebar i {
-            font-size: 24px;
-            color: #FFD700;
-            margin: 10px 0;
-            cursor: pointer;
-        }
-
-        .sidebar i:hover {
-            color: #FFC107;
-        }
-
-        #container-profile {
-            background-color: rgb(10, 10, 10); /* Dark background for the profile container */
-            width: calc(100% - 200px); /* Adjust width to account for sidebar */
-            margin-left: 200px; /* Push the content to the right of the sidebar */
-            padding: 20px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-            color: #FFD700; /* Golden color for text */
-            display: flex;
-            flex-direction: column;
-            justify-content: top;
-            max-width: 800px;
-            margin: 50px auto;
-            border-radius: 10px;
-        }
-
-        #title {
-            font-size: 30px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #FFD700;
-        }
-
-        #title i {
-            margin-right: 5px;
-            color: #FFD700;
-        }
-
-        #profile-info h3, #profile-info p {
-            color: #fff;
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-
-        #profile-info h3 {
-            font-size: 22px;
-            color: #FFD700;
-        }
-    </style>
+    <link rel="stylesheet" href="css/profile.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
     <div class="sidebar">
-        <a href="index.html"><i class="material-icons">home</i> Home</a>
+        <a href="home.html"><i class="material-icons">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
         <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>

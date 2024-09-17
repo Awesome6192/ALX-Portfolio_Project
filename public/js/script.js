@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    window.location.href = '/index.html'; // Redirect on successful login
+                    window.location.href = '/home.html'; // Redirect on successful login
                 } else {
                     const data = await response.json();
                     alert(data.errors[0]?.msg || 'Unknown error');
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    window.location.href = '/index.html'; // Redirect on successful registration
+                    window.location.href = '/home.html'; // Redirect on successful registration
                 } else {
                     const data = await response.json();
                     alert(data.errors[0]?.msg || 'Unknown error');

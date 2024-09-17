@@ -4,208 +4,12 @@
     <meta charset="UTF-8">
     <title>FanFaction Feed</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/home.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        body {
-            background-color: rgba(99, 89, 89, 0.8); /* Match the black background from search.html */
-            font-family: 'Arial', sans-serif;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: stretch;
-            height: 100vh; /* Ensure full viewport height is covered */
-        }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200px;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
-            align-items: right;
-            padding-top: 40px;
-        }
-        .sidebar a {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            color: #FFD700;
-            font-size: 18px;
-        }
-        .sidebar i {
-            font-size: 24px;
-            color: #FFD700;
-            margin: 10px 0;
-            cursor: pointer;
-        }
-        .sidebar i:hover {
-            color: #FFC107;
-        }
-
-        #container-main {
-            background: rgb(10, 10, 10); /* Dark background */
-            width: 100%;
-            max-width: 800px;
-            padding: 20px;
-            color: #FFD700; /* Golden text */
-            display: flex;
-            flex-direction: column;
-            justify-content: top; /* Align content to the top */
-            margin: 0;
-            min-height: 100vh; /* Ensure the container covers at least the full viewport height */
-            overflow-y: auto; /* Enable scrolling if content exceeds viewport height */
-            box-shadow: none; /* Remove box shadow */
-        }
-
-        #title {
-            font-size: 25px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #FFD700;
-        }
-        #title i {
-            margin-right: 5px;
-            color: #FFD700;
-        }
-        .post-creation-form {
-            margin-bottom: 20px;
-        }
-        .post-creation-form textarea {
-            width: 97%;
-            height: 80px;
-            padding: 8px;
-            border-radius: 5px;
-            border: none;
-            margin-bottom: 8px;
-            font-size: 16px;
-            background: #ffffff;
-            color: #000000;
-        }
-        .file-upload {
-            margin-bottom: 5px;
-        }
-        .upload-label {
-            display: block;
-            margin-bottom: 1px;
-            color: #FFD700; /* Golden color for the label */
-            font-size: 16px;
-        }
-        input[type="file"] {
-            display: block;
-            width: 25%;
-            padding: 1px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            background: #333;
-            color: #fff;
-            font-size: 14px;
-        }
-        .post-creation-form button {
-            background-color: #FFD700;
-            color: #000;
-            border: none;
-            padding: 10px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            display: block; /* Make it a block element */
-            margin: 0 auto; /* Center horizontally */
-        }
-        .post-creation-form button:hover {
-            background-color: #FFC107;
-        }
-        .post-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-        .post-item {
-            background: rgba(255, 255, 255, 0.1);
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        .post-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .post-header img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .post-header h3 {
-            margin: 0;
-            color: #FFD700;
-        }
-        .post-content {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-        .post-media {
-            max-width: 100%;
-            margin-top: 10px;
-        }
-        .post-footer {
-            display: flex;
-            gap: 15px;
-        }
-        .post-footer button {
-            background: rgba(255, 255, 255, 0.3);
-            border: none;
-            color: #fff;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .post-footer button:hover {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        .comments-section {
-            margin-top: 10px;
-        }
-        .comment-item {
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        .comment-input {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border: 1px solid #555;
-            background-color: #333;
-            color: #FFD700;
-        }
-        .submit-comment-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: #fff;
-            cursor: pointer;
-        }
-        .submit-comment-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
 <body>
     <div class="sidebar">
-        <a href="index.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
+        <a href="home.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
         <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>
@@ -251,17 +55,10 @@
                     <div class="comment-item">Comment 1: This is a sample comment.</div>
                     <div class="comment-item">Comment 2: Another comment.</div>
                     <textarea class="comment-input" placeholder="Add a comment..."></textarea>
-                    <button class="submit-comment-button">Submit</button>
+                    <button class="submit-comment-button">Submit Comment</button>
                 </div>
             </li>
-            <!-- More posts will be inserted here by JavaScript -->
         </ul>
     </div>
-    <script>
-        function refreshPage() {
-            window.location.reload();
-        }
-    </script>
-    <script src="js/feed.js"></script>
 </body>
 </html>
