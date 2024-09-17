@@ -8,14 +8,19 @@
     <link rel="stylesheet" href="css/settings.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <i class="material-icons">menu</i> <!-- Material icon for hamburger menu -->
+    </div>
+    
     <div class="sidebar">
-        <a href="home.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
+        <a href="home.html"><i class="material-icons" id="home-icon">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
         <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>
         <a href="notifications.html"><i class="material-icons">notifications</i> Notifications</a>
         <a href="profile.html"><i class="material-icons">account_circle</i> Profile</a>
-        <a href="setting.html"><i class="material-icons">settings</i> Settings</a>
+        <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
     
     <div id="container-settings">
@@ -51,13 +56,11 @@
 
             <button type="submit">Save Changes</button>
         </form>
+
+        <!-- Logout Button -->
+        <button id="logout-button" class="logout-button">Logout</button>
     </div>
 
-    <script>
-        function refreshPage() {
-            window.location.reload();
-        }
-    </script>
     <script src="js/settings.js"></script>
 </body>
 </html>

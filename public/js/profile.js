@@ -30,3 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchUserProfile();
 });
+
+// Hamburger menu JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const sidebar = document.querySelector('.sidebar');
+    const profileContainer = document.querySelector('#container-profile');
+
+    hamburgerMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        profileContainer.classList.toggle('sidebar-open');
+    });
+});

@@ -4,6 +4,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const postList = document.getElementById('post-list');
     const imageUpload = document.getElementById('image-upload');
     const videoUpload = document.getElementById('video-upload');
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const sidebar = document.querySelector('.sidebar');
+
+    hamburgerMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+    });
+    
+
+    // Debounce function to limit the rate of fetch requests
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
 
     // Function to fetch and display posts
     async function fetchPosts() {
@@ -24,11 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 displayPosts(data.posts);
             } else {
                 console.error('Unexpected posts data structure:', data);
-                alert('Unexpected posts data structure.');
+                showNotification('Unexpected posts data structure.', 'error');
             }
         } catch (error) {
             console.error('Error loading posts:', error);
-            alert('Error loading posts. Please try again later.');
+            showNotification('Error loading posts. Please try again later.', 'error');
         }
     }
 
@@ -65,10 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add event listeners for comments and likes
         document.querySelectorAll('.like-button').forEach(button => {
-            button.addEventListener('click', handleLike);
+            button.addEventListener('click', debounce(handleLike, 300)); // Added debounce
         });
         document.querySelectorAll('.submit-comment-button').forEach(button => {
-            button.addEventListener('click', handleComment);
+            button.addEventListener('click', debounce(handleComment, 300)); // Added debounce
         });
     }
 
@@ -91,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchPosts();
         } catch (error) {
             console.error('Error liking post:', error);
-            alert('Error liking post. Please try again later.');
+            showNotification('Error liking post. Please try again later.', 'error');
         }
     }
 
@@ -117,17 +137,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error('Network response was not ok');
                 }
 
+                // Clear comment input after submission
+                commentInput.value = '';
+
                 // Refresh posts after adding a comment
                 fetchPosts();
             } catch (error) {
                 console.error('Error commenting on post:', error);
-                alert('Error commenting on post. Please try again later.');
+                showNotification('Error commenting on post. Please try again later.', 'error');
             }
         }
     }
 
-    // Function to create a new post
+    // Function to create a new post with validation
     async function createPost(content, imageFile, videoFile) {
+        if (imageFile && imageFile.size > 5 * 1024 * 1024) {
+            showNotification('Image file is too large. Max size is 5MB.', 'error');
+            return;
+        }
+
+        if (videoFile && videoFile.size > 10 * 1024 * 1024) {
+            showNotification('Video file is too large. Max size is 10MB.', 'error');
+            return;
+        }
+
         try {
             const formData = new FormData();
             formData.append('content', content);
@@ -150,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchPosts();
         } catch (error) {
             console.error('Error creating post:', error);
-            alert('Error creating post. Please try again later.');
+            showNotification('Error creating post. Please try again later.', 'error');
         }
     }
 
@@ -167,6 +200,21 @@ document.addEventListener('DOMContentLoaded', () => {
             videoUpload.value = ''; // Clear the file input
         }
     });
+
+    function refreshPage() {
+        window.location.reload();
+    }
+
+    // Function to show notifications
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerText = message;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
 
     // Load posts when the page loads
     fetchPosts();

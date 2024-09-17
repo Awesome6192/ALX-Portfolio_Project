@@ -1,25 +1,42 @@
 body {
-    background-color: rgba(99, 89, 89, 0.8); /* Match background color */
+    background-color: rgba(32, 32, 32, 0.8);
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: stretch;
     height: 100vh;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Roboto', sans-serif;
     color: #fff;
+}
+
+.hamburger-menu {
+    position: fixed;
+    top: 5px;
+    left: 10px;
+    font-size: 40px;
+    color: #ffcc00;
+    cursor: pointer;
+    z-index: 1000;
 }
 
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 200px; /* Match sidebar width */
+    width: 170px; /* Consistent with chat container */
     height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
-    padding-top: 40px; /* Match padding */
+    padding-top: 40px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 999;
+}
+
+.sidebar.open {
+    transform: translateX(0);
 }
 
 .sidebar a {
@@ -27,19 +44,19 @@ body {
     display: flex;
     align-items: center;
     padding: 15px 20px;
-    color: #FFD700;
-    font-size: 18px;
+    color: #ffcc00;
+    font-size: 16px;
 }
 
 .sidebar i {
     font-size: 24px;
-    color: #FFD700;
-    margin: 10px 0;
-    cursor: pointer;
+    color: #ffcc00;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .sidebar i:hover {
-    color: #FFC107;
+    color: #ffcc00;
 }
 
 #container-profile {
@@ -58,7 +75,7 @@ body {
 }
 
 #title {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     margin-bottom: 30px;
     display: flex;
@@ -81,4 +98,63 @@ body {
 #profile-info h3 {
     font-size: 22px;
     color: #FFD700;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        transform: translateY(-100%);
+    }
+
+    .sidebar.open {
+        transform: translateY(0);
+    }
+
+    #chat-container {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    #chat-list {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    #chat-window {
+        padding: 10px;
+    }
+
+    #message-content {
+        font-size: 14px;
+    }
+
+    #send-message {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hamburger-menu {
+        font-size: 30px;
+    }
+
+    .sidebar a {
+        font-size: 16px;
+    }
+
+    #chat-header {
+        font-size: 20px;
+    }
+
+    #message-content {
+        font-size: 14px;
+    }
+
+    #send-message {
+        font-size: 14px;
+        padding: 8px;
+    }
 }

@@ -70,3 +70,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     loadClubList();
 });
+
+// Hamburger menu JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const sidebar = document.querySelector('.sidebar');
+    const chatContainer = document.querySelector('#club-container');
+
+    hamburgerMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        chatContainer.classList.toggle('sidebar-open');
+    });
+});

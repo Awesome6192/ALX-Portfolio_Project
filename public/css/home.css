@@ -1,40 +1,42 @@
 body {
-    background-color: rgba(32, 32, 32, 0.8); /* Match the black background from search.html */
-    font-family: 'Arial', sans-serif;
-    color: #fff;
+    background-color: rgba(32, 32, 32, 0.8);
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: stretch;
-    height: 100vh; /* Ensure full viewport height is covered */
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
 }
 
 .hamburger-menu {
     position: fixed;
-    top: 10px;
-    left: 20px;
-    z-index: 1000;
-    cursor: pointer;
-}
-
-.hamburger-menu i {
+    top: 5px;
+    left: 10px;
     font-size: 40px;
     color: #ffcc00;
+    cursor: pointer;
+    z-index: 1000;
 }
 
 .sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 170px;
+    width: 170px; /* Consistent with chat container */
     height: 100vh;
     background: rgba(0, 0, 0, 0.8);
-    display: none; /* Hidden by default */
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding-top: 80px;
+    padding-top: 40px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
     z-index: 999;
+}
+
+.sidebar.open {
+    transform: translateX(0);
 }
 
 .sidebar a {
@@ -43,14 +45,14 @@ body {
     align-items: center;
     padding: 15px 20px;
     color: #ffcc00;
-    font-size: 18px;
-    width: 100%;
+    font-size: 16px;
 }
 
 .sidebar i {
     font-size: 24px;
     color: #ffcc00;
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 
 .sidebar i:hover {
@@ -234,55 +236,60 @@ input[type="file"] {
     background-color: #0056b3;
 }
 
-/* Media Queries */
+/* Responsive styles */
 @media (max-width: 768px) {
-    .hamburger-menu {
-        left: 10px;
-    }
-
-    .hamburger-menu i {
-        font-size: 30px;
-    }
-
     .sidebar {
         width: 100%;
-        max-width: 300px;
-        padding-top: 60px;
-        display: block; /* Display on smaller screens */
+        height: auto;
+        transform: translateY(-100%);
     }
 
-    #container-main {
+    .sidebar.open {
+        transform: translateY(0);
+    }
+
+    #chat-container {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    #chat-list {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    #chat-window {
         padding: 10px;
-        max-width: 100%;
     }
 
-    .post-creation-form textarea {
-        width: 100%;
+    #message-content {
+        font-size: 14px;
     }
 
-    input[type="file"] {
-        width: 100%;
+    #send-message {
+        font-size: 14px;
+        padding: 8px;
     }
 }
 
 @media (max-width: 480px) {
     .hamburger-menu {
-        left: 5px;
-    }
-
-    .hamburger-menu i {
-        font-size: 25px;
+        font-size: 30px;
     }
 
     .sidebar a {
         font-size: 16px;
     }
 
-    .post-creation-form textarea {
-        height: 60px;
+    #chat-header {
+        font-size: 20px;
     }
 
-    .post-creation-form button {
+    #message-content {
+        font-size: 14px;
+    }
+
+    #send-message {
         font-size: 14px;
         padding: 8px;
     }

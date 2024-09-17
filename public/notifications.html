@@ -8,8 +8,13 @@
     <link rel="stylesheet" href="css/notifications.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <i class="material-icons">menu</i> <!-- Material icon for hamburger menu -->
+    </div>
+    
     <div class="sidebar">
-        <a href="home.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
+        <a href="home.html"><i class="material-icons" id="home-icon">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
         <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>
@@ -25,42 +30,6 @@
         <!-- Notifications will be displayed here -->
     </div>
 
-    <script>
-        function refreshPage() {
-            window.location.reload();
-        }
-
-        // Connect to the WebSocket server
-        const socket = new WebSocket('ws://localhost:3000');
-
-        // Handle incoming messages from WebSocket
-        socket.addEventListener('message', function(event) {
-            try {
-                const notification = JSON.parse(event.data);
-                displayNotification(notification);
-            } catch (error) {
-                console.error('Error parsing notification data:', error);
-            }
-        });
-
-        // Function to display a notification
-        function displayNotification(notification) {
-            const container = document.getElementById('container-notifications');
-            const notificationElement = document.createElement('div');
-            notificationElement.className = 'notification';
-            notificationElement.innerHTML = `<p>${notification.message}</p>`;
-            container.appendChild(notificationElement);
-        }
-
-        // Handle WebSocket errors
-        socket.addEventListener('error', function(event) {
-            console.error('WebSocket error:', event);
-        });
-
-        // Handle WebSocket connection closure
-        socket.addEventListener('close', function(event) {
-            console.log('WebSocket connection closed:', event);
-        });
-    </script>
+    <script src="js/notification.js"></script> <!-- Link to the external JavaScript file -->
 </body>
 </html>

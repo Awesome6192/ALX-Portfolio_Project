@@ -72,27 +72,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Logout Button Handling
-    const logoutButton = document.getElementById('logout-button'); // Ensure this exists in your HTML
-
-    if (logoutButton) {
-        logoutButton.addEventListener('click', async () => {
-            try {
-                const response = await fetch('/api/user/logout', {
-                    method: 'POST',
-                    credentials: 'include' // Ensure cookies are included
-                });
-
-                if (response.ok) {
-                    window.location.href = '/login.html'; // Redirect on successful logout
-                } else {
-                    alert('Error logging out');
-                }
-            } catch (error) {
-                console.error('Error during logout:', error);
-                alert('An error occurred while logging out.');
-            }
-        });
-    }
-});
+})

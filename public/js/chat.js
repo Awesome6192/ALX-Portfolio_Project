@@ -58,3 +58,15 @@ sendMessageButton.addEventListener('click', sendMessage);
 
 // Optionally, you can set an initial chat room or add logic to dynamically populate the chat list
 openChat(currentChatId);
+
+// Hamburger menu JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const sidebar = document.querySelector('.sidebar');
+    const chatContainer = document.querySelector('#chat-container');
+
+    hamburgerMenu.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        chatContainer.classList.toggle('sidebar-open');
+    });
+});

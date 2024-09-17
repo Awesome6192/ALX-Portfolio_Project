@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="css/club.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
+    <!-- Hamburger Menu -->
+    <div class="hamburger-menu">
+        <i class="material-icons">menu</i> <!-- Material icon for hamburger menu -->
+    </div>
+
     <div class="sidebar">
         <a href="home.html"><i class="material-icons">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
@@ -17,23 +22,29 @@
         <a href="profile.html"><i class="material-icons">account_circle</i> Profile</a>
         <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
+    
     <div id="club-container">
         <div id="club-list">
             <!-- Placeholder for club items -->
         </div>
+        
         <div id="club-window">
             <div id="club-header">
                 <i class="material-icons">sports_soccer</i> Club Info
             </div>
+            
             <div id="club-content">
                 <!-- Club information will be inserted here by JavaScript -->
             </div>
-            <div id="club-input">
+            
+            <div id="club-input-container">
+                <!-- Club information input -->
                 <textarea id="club-content-input" placeholder="Add information about the club..."></textarea>
                 <button id="submit-club-info">Submit</button>
             </div>
         </div>
     </div>
-    <script src="club.js"></script>
+
+    <script src="js/club.js"></script>
 </body>
 </html>
