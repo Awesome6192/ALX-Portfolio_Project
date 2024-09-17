@@ -8,7 +8,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-    <div class="sidebar">
+    <div class="hamburger-menu">
+        <i class="material-icons">menu</i>
+    </div>
+    <div class="sidebar" id="sidebar">
         <a href="home.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
@@ -60,5 +63,19 @@
             </li>
         </ul>
     </div>
+    <script>
+        function refreshPage() {
+            window.location.reload();
+        }
+
+        document.querySelector('.hamburger-menu').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar.style.display === 'block') {
+                sidebar.style.display = 'none';
+            } else {
+                sidebar.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
