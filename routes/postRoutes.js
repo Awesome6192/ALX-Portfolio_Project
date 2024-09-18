@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const postController = require('../controllers/postController');
-const authMiddleware = require('../middleware/authMiddleware');
+const express = require('express'); // Import the Express library
+const router = express.Router(); // Create a new router instance
+const postController = require('../controllers/postController'); // Import the postController to handle post-related actions
+const authMiddleware = require('../middleware/authMiddleware'); // Import middleware for authentication
 
 // Fetch all posts with pagination (supports ?page=1&limit=10)
 router.get('/', postController.getAllPosts);

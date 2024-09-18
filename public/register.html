@@ -1,32 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Specifies the character encoding for the HTML document -->
     <meta charset="UTF-8">
+    <!-- Sets the title of the webpage displayed in the browser tab -->
     <title>Sign Up</title>
+    <!-- Ensures the page is responsive on different devices by setting the viewport width -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Links to an external stylesheet for general styling -->
     <link rel="stylesheet" href="css/main.css">
+    <!-- Links to Google Material Icons for using icon fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         /* Specific styles for the animated background */
         html, body {
+            /* Removes default margin and padding */
             margin: 0;
             padding: 0;
+            /* Ensures the body takes up full viewport height and width */
             height: 100%;
             width: 100%;
+            /* Hides any overflow */
             overflow: hidden;
         }
 
         body {
+            /* Centers the content both horizontally and vertically */
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Ensures background image covers the entire body */
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            /* Applies the background animation */
             animation: changeBackground 15s infinite;
         }
 
+        /* Keyframes for the background image animation */
         @keyframes changeBackground {
             0% {
                 background-image: url('images/giphy%201.gif');
@@ -44,41 +56,53 @@
     </style>
 </head>
 <body>
-    <div id="container-login"> <!-- Changed ID to match CSS for consistency -->
+    <!-- Main container for the login/sign-up form -->
+    <div id="container-login">
+        <!-- Header for the form with an icon and title -->
         <div id="title">
-            <i class="material-icons lock">sports_soccer</i> Sign Up <!-- Changed text from Register to Sign Up -->
+            <i class="material-icons lock">sports_soccer</i> Sign Up
         </div>
-        <form id="register-form"> <!-- Changed ID to match CSS for consistency -->
+        <!-- Sign-up form -->
+        <form id="register-form">
+            <!-- Email input field -->
             <div class="input">
                 <i class="material-icons input-addon">email</i>
                 <input id="email" name="email" placeholder="Email" type="email" required class="validate" autocomplete="off">
             </div>
+            <!-- Username input field -->
             <div class="input">
                 <i class="material-icons input-addon">face</i>
                 <input id="username" name="username" placeholder="Username" type="text" required class="validate" autocomplete="off">
             </div>
+            <!-- Password input field -->
             <div class="input">
                 <i class="material-icons input-addon">vpn_key</i>
                 <input id="password" name="password" placeholder="Password" type="password" required class="validate" autocomplete="off">
             </div>
+            <!-- Confirm Password input field -->
             <div class="input">
                 <i class="material-icons input-addon">vpn_key</i>
                 <input id="confirm-password" name="confirm-password" placeholder="Confirm Password" type="password" required class="validate" autocomplete="off">
             </div>
+            <!-- Terms of Service checkbox -->
             <div class="remember-me">
                 <input type="checkbox" name="tos">
                 <span>I accept Terms of Service</span>
             </div>
+            <!-- Submit button for the form -->
             <input type="submit" value="Sign Up" />
         </form>
+        <!-- Link to the Privacy Policy page -->
         <div class="privacy">
-            <a href="/privacy-policy.html">Privacy Policy</a> <!-- Updated link to Privacy Policy page -->
+            <a href="/privacy-policy.html">Privacy Policy</a>
         </div>
-        <div class="register login-register-text"> <!-- Added class for color change -->
+        <!-- Text and link for users who already have an account -->
+        <div class="register login-register-text">
             <span>Do you already have an account?</span>
             <a href="./login.html"><button id="register-link">Log In here</button></a>
         </div>
     </div>
+    <!-- Link to an external JavaScript file for additional functionality -->
     <script src="js/script.js"></script>
 </body>
 </html>

@@ -1,32 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Specifies the character encoding for the document -->
     <meta charset="UTF-8">
+    <!-- Sets the title of the webpage, shown in the browser tab -->
     <title>Login</title>
+    <!-- Ensures the page is responsive on different devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/main.css"> <!-- Linking external stylesheet -->
+    <!-- Links to an external stylesheet for general styling -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Links to Google Material Icons for icon usage -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         /* Specific styles for the animated background */
         html, body {
+            /* Removes default margins and padding */
             margin: 0;
             padding: 0;
+            /* Ensures the body takes up the full viewport height and width */
             height: 100%;
             width: 100%;
+            /* Prevents scrollbars from appearing */
             overflow: hidden;
         }
 
         body {
+            /* Flexbox centering for the login container */
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Background styling */
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            /* Animation for changing background images */
             animation: changeBackground 15s infinite;
         }
 
+        /* Keyframes for background animation */
         @keyframes changeBackground {
             0% {
                 background-image: url('images/giphy%201.gif');
@@ -44,36 +56,48 @@
     </style>
 </head>
 <body>
+    <!-- Container for the login form and related elements -->
     <div id="container-login">
+        <!-- Title of the login page -->
         <div id="title">
+            <!-- Lock icon and Login text -->
             <i class="material-icons lock">lock</i> Login
         </div>
+        <!-- Login form -->
         <form id="login-form">
+            <!-- Username or Email input field -->
             <div class="input">
                 <i class="material-icons input-addon">person</i>
                 <input id="identifier" name="identifier" placeholder="Email or Username" type="text" required class="validate" autocomplete="off">
             </div>
+            <!-- Password input field -->
             <div class="input">
                 <i class="material-icons input-addon">vpn_key</i>
                 <input id="password" name="password" placeholder="Password" type="password" required class="validate" autocomplete="off">
             </div>
+            <!-- Remember Me checkbox -->
             <div class="remember-me">
                 <input type="checkbox" name="remember-me" id="remember-me">
                 <label for="remember-me">Remember Me</label>
             </div>
+            <!-- Submit button -->
             <input type="submit" value="Log In">
         </form>
+        <!-- Forgot Password link -->
         <div class="forgot-password">
             <a href="#">Forgot your password?</a>
         </div>
+        <!-- Privacy Policy link -->
         <div class="privacy">
             <a href="privacy-policy.html">Privacy Policy</a>
         </div>
+        <!-- Registration prompt with link to the registration page -->
         <div class="register">
             <span>Don't have an account yet?</span>
             <a href="./register.html"><button id="register-link">Register here</button></a>
         </div>
     </div>
+    <!-- Link to external JavaScript file for form interactions -->
     <script src="js/script.js"></script>
 </body>
 </html>

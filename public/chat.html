@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Character encoding for the document -->
     <meta charset="UTF-8">
+    <!-- Title of the webpage displayed on the browser tab -->
     <title>FanFaction Chat</title>
+    <!-- Viewport settings for responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to Google Material Icons for using icon fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/chat.css"> <!-- Link to the external CSS file -->
+    <!-- Link to the external CSS file for styling -->
+    <link rel="stylesheet" href="css/chat.css">
 </head>
 <body>
     <!-- Hamburger Menu -->
     <div class="hamburger-menu">
-        <i class="material-icons">menu</i> <!-- Material icon for hamburger menu -->
+        <!-- Material icon for the hamburger menu, which toggles the sidebar -->
+        <i class="material-icons">menu</i>
     </div>
 
     <!-- Sidebar -->
     <div class="sidebar">
+        <!-- Navigation links with Material icons for different sections of the app -->
         <a href="home.html"><i class="material-icons">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
@@ -24,25 +31,35 @@
         <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
 
+    <!-- Main chat container -->
     <div id="chat-container">
+        <!-- Chat list (e.g., list of available chat rooms) -->
         <div id="chat-list">
-            <!-- Placeholder for future chat items -->
+            <!-- Placeholder for future chat items, which can be dynamically added -->
         </div>
+        <!-- Chat window -->
         <div id="chat-window">
+            <!-- Chat header with the chat room title -->
             <div id="chat-header">
                 <i class="material-icons">chat</i> Chat Room
             </div>
+            <!-- List of messages displayed in the chat window -->
             <div id="message-list">
                 <!-- Messages will be inserted here by JavaScript -->
             </div>
+            <!-- Input area for sending new messages -->
             <div id="message-input">
+                <!-- Textarea for typing messages -->
                 <textarea id="message-content" placeholder="Type a message..."></textarea>
+                <!-- Button to send the typed message -->
                 <button id="send-message">Send</button>
             </div>
         </div>
     </div>
 
+    <!-- Link to Socket.IO JavaScript library for real-time communication -->
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/chat.js"></script> <!-- Link to your external JavaScript file -->
+    <!-- Link to the external JavaScript file for chat functionality -->
+    <script src="js/chat.js"></script>
 </body>
 </html>

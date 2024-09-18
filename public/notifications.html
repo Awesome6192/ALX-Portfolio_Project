@@ -1,35 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Defines the character encoding for the HTML document -->
     <meta charset="UTF-8">
+    <!-- Sets the title of the webpage displayed in the browser tab -->
     <title>Notifications</title>
+    <!-- Ensures the page is responsive on different devices by setting the viewport width -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Links to Google Material Icons for using icons in the page -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/notifications.css"> <!-- Link to the external CSS file -->
+    <!-- Links to an external stylesheet for styling notifications page -->
+    <link rel="stylesheet" href="css/notifications.css">
 </head>
 <body>
-    <!-- Hamburger Menu -->
+    <!-- Hamburger Menu for responsive design -->
     <div class="hamburger-menu">
-        <i class="material-icons">menu</i> <!-- Material icon for hamburger menu -->
+        <!-- Material icon for the hamburger menu -->
+        <i class="material-icons">menu</i>
     </div>
     
+    <!-- Sidebar navigation menu -->
     <div class="sidebar">
-        <a href="home.html"><i class="material-icons" id="home-icon">home</i> Home</a>
-        <a href="search.html"><i class="material-icons">search</i> Search</a>
-        <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
-        <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>
-        <a href="notifications.html"><i class="material-icons">notifications</i> Notifications</a>
-        <a href="profile.html"><i class="material-icons">account_circle</i> Profile</a>
-        <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
+        <!-- Links to different pages of the application with associated icons -->
+        <a href="home.html">
+            <!-- Home icon and label -->
+            <i class="material-icons" id="home-icon">home</i> Home
+        </a>
+        <a href="search.html">
+            <!-- Search icon and label -->
+            <i class="material-icons">search</i> Search
+        </a>
+        <a href="chat.html">
+            <!-- Chat icon and label -->
+            <i class="material-icons">chat</i> Chats
+        </a>
+        <a href="club.html">
+            <!-- Clubs icon and label -->
+            <i class="material-icons">sports_soccer</i> Clubs
+        </a>
+        <a href="notifications.html">
+            <!-- Notifications icon and label -->
+            <i class="material-icons">notifications</i> Notifications
+        </a>
+        <a href="profile.html">
+            <!-- Profile icon and label -->
+            <i class="material-icons">account_circle</i> Profile
+        </a>
+        <a href="settings.html">
+            <!-- Settings icon and label -->
+            <i class="material-icons">settings</i> Settings
+        </a>
     </div>
 
+    <!-- Container for notifications content -->
     <div id="container-notifications">
+        <!-- Header for notifications section -->
         <div id="notifications-header">
+            <!-- Notifications icon and header label -->
             <i class="material-icons">notifications</i> Notifications
         </div>
-        <!-- Notifications will be displayed here -->
+        <!-- Placeholder for displaying notifications -->
+        <!-- Notifications will be dynamically inserted here by JavaScript -->
     </div>
 
-    <script src="js/notification.js"></script> <!-- Link to the external JavaScript file -->
+    <!-- Links to an external JavaScript file for additional functionality -->
+    <script src="js/notification.js"></script>
 </body>
 </html>

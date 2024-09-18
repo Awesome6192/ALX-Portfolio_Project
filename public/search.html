@@ -1,48 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Declares the document type and version (HTML5) -->
     <meta charset="UTF-8">
+    <!-- Sets the title of the webpage displayed in the browser tab -->
     <title>Search</title>
+    <!-- Ensures the page is responsive on different devices by setting the viewport width -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Links to Google Material Icons for using icon fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/search.css"> <!-- Link to the external CSS file -->
+    <!-- Links to an external stylesheet for specific styling related to the search page -->
+    <link rel="stylesheet" href="css/search.css">
 </head>
 <body>
 
     <!-- Hamburger Menu -->
     <div class="hamburger-menu">
-        <i class="material-icons">menu</i> <!-- Material icon for hamburger menu -->
+        <!-- Material icon for hamburger menu -->
+        <i class="material-icons">menu</i>
     </div>
 
-    
+    <!-- Sidebar with navigation links -->
     <div class="sidebar">
+        <!-- Link to the home page -->
         <a href="home.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
+        <!-- Link to the search page (active link) -->
         <a href="search.html"><i class="material-icons">search</i> Search</a>
+        <!-- Link to the chat page -->
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
+        <!-- Link to the clubs page -->
         <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>
+        <!-- Link to the notifications page -->
         <a href="notifications.html"><i class="material-icons">notifications</i> Notifications</a>
+        <!-- Link to the user profile page -->
         <a href="profile.html"><i class="material-icons">account_circle</i> Profile</a>
+        <!-- Link to the settings page -->
         <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
-    
+
+    <!-- Main container for the search functionality -->
     <div id="container-search">
+        <!-- Title for the search page -->
         <div id="title">
+            <!-- Material icon and title for the search page -->
             <i class="material-icons">search</i> Search
         </div>
+        <!-- Search form with input and button -->
         <div class="search-form">
+            <!-- Input field for search queries -->
             <input type="text" id="search-input" placeholder="Search...">
+            <!-- Button to initiate the search -->
             <button id="search-button">Search</button>
         </div>
+        <!-- Container where search results will be displayed -->
         <div id="search-results">
             <!-- Search results will be displayed here -->
         </div>
     </div>
 
+    <!-- Inline JavaScript to reload the page when the home icon is clicked -->
     <script>
         function refreshPage() {
             window.location.reload();
         }
     </script>
+    <!-- Links to an external JavaScript file for additional search page functionality -->
     <script src="js/search.js"></script>
 </body>
 </html>

@@ -5,8 +5,8 @@ const Message = require('../models/message'); // Ensure this path is correct
 
 // Create a new message
 router.post('/', [
-    check('chatId').isString().notEmpty().withMessage('Chat ID must be provided'),
-    check('userId').isInt().withMessage('User ID must be an integer'),
+    check('chat_id').isString().notEmpty().withMessage('Chat ID must be provided'),
+    check('user_id').isInt().withMessage('User ID must be an integer'),
     check('content').isString().notEmpty().withMessage('Message content must be provided')
 ], async (req, res) => {
     const errors = validationResult(req);
@@ -14,10 +14,10 @@ router.post('/', [
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { chatId, userId, content } = req.body;
+    const { chat_id, user_id, content } = req.body;
 
     try {
-        const newMessage = await Message.create({ chatId, userId, content });
+        const newMessage = await Message.create({ chat_id, user_id, content });
         res.status(201).json(newMessage);
     } catch (error) {
         console.error('Error creating message:', error);
@@ -26,8 +26,8 @@ router.post('/', [
 });
 
 // Get messages for a specific chat with optional pagination
-router.get('/:chatId', [
-    check('chatId').isString().notEmpty().withMessage('Chat ID must be a non-empty string'),
+router.get('/:chat_id', [
+    check('chat_id').isString().notEmpty().withMessage('Chat ID must be a non-empty string'),
     check('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer'),
     check('limit').optional().isInt({ min: 1 }).withMessage('Limit must be a positive integer')
 ], async (req, res) => {
@@ -36,13 +36,13 @@ router.get('/:chatId', [
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const chatId = req.params.chatId;
+    const chat_id = req.params.chat_id;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 50;
 
     try {
         const messages = await Message.findAll({
-            where: { chatId: chatId },
+            where: { chat_id: chat_id },
             order: [['createdAt', 'ASC']],
             limit: limit,
             offset: (page - 1) * limit

@@ -21,7 +21,7 @@ function openChat(chatId) {
         })
         .then(messages => {
             messageList.innerHTML = messages.map(msg => `
-                <div class="message ${msg.userId === currentUserId ? 'sent' : 'received'}">
+                <div class="message ${msg.user_id === currentUserId ? 'sent' : 'received'}">
                     <p>${msg.content}</p>
                 </div>
             `).join('');
@@ -36,8 +36,8 @@ function sendMessage() {
     const message = messageContent.value.trim();
     if (message) {
         socket.emit('sendMessage', {
-            chatId: currentChatId,
-            userId: currentUserId,
+            chat_id: currentChatId,
+            user_id: 1,
             content: message
         });
         messageContent.value = '';
@@ -45,9 +45,9 @@ function sendMessage() {
 }
 
 socket.on('receiveMessage', (data) => {
-    if (data.chatId === currentChatId) {
+    if (data.chat_id === currentChatId) {
         const messageElement = document.createElement('div');
-        messageElement.className = `message ${data.userId === currentUserId ? 'sent' : 'received'}`;
+        messageElement.className = `message ${data.user_id === currentUserId ? 'sent' : 'received'}`;
         messageElement.innerHTML = `<p>${data.content}</p>`;
         messageList.appendChild(messageElement);
         messageList.scrollTop = messageList.scrollHeight;

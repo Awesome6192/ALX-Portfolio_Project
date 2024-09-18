@@ -1,85 +1,108 @@
-const express = require('express');
-const router = express.Router();
-const Like = require('../models/like');
+const express = require('express'); // Import the Express library
+const router = express.Router(); // Create a new router instance
+const Like = require('../models/like'); // Import the Like model from the models directory
 
 // Create a new like
 router.post('/', async (req, res) => {
     try {
-        const { user_id, content_type, content_id } = req.body;
+        // Destructure the request body to get like details
+        const { user_id, content_type, content_id } = req.body; 
+        // Create a new like record in the database
         const newLike = await Like.create({ user_id, content_type, content_id });
-        res.status(201).json(newLike);
+        // Respond with the created like and a 201 status code
+        res.status(201).json(newLike); 
     } catch (error) {
-        console.error('Error creating like:', error);
-        res.status(500).json({ error: 'Error creating like' });
+        console.error('Error creating like:', error); // Log any errors to the console
+        // Respond with a 500 status code if an error occurs
+        res.status(500).json({ error: 'Error creating like' }); 
     }
 });
 
 // Get all likes for a content type and ID
 router.get('/', async (req, res) => {
     try {
+        // Extract content_type and content_id from query parameters
         const { content_type, content_id } = req.query;
+        // Validate that both parameters are provided
         if (!content_type || !content_id) {
             return res.status(400).json({ error: 'Content type and content ID are required' });
         }
+        // Fetch all likes that match the provided content_type and content_id
         const likes = await Like.findAll({
             where: { content_type, content_id }
         });
-        res.status(200).json(likes);
+        // Respond with the list of likes and a 200 status code
+        res.status(200).json(likes); 
     } catch (error) {
-        console.error('Error fetching likes:', error);
-        res.status(500).json({ error: 'Error fetching likes' });
+        console.error('Error fetching likes:', error); // Log any errors to the console
+        // Respond with a 500 status code if an error occurs
+        res.status(500).json({ error: 'Error fetching likes' }); 
     }
 });
 
 // Get a like by ID
 router.get('/:id', async (req, res) => {
     try {
+        // Fetch a like by its primary key (ID)
         const like = await Like.findByPk(req.params.id);
         if (like) {
-            res.status(200).json(like);
+            // Respond with the like details and a 200 status code if found
+            res.status(200).json(like); 
         } else {
-            res.status(404).json({ error: 'Like not found' });
+            // Respond with a 404 status code if the like is not found
+            res.status(404).json({ error: 'Like not found' }); 
         }
     } catch (error) {
-        console.error('Error fetching like:', error);
-        res.status(500).json({ error: 'Error fetching like' });
+        console.error('Error fetching like:', error); // Log any errors to the console
+        // Respond with a 500 status code if an error occurs
+        res.status(500).json({ error: 'Error fetching like' }); 
     }
 });
 
 // Update a like
 router.put('/:id', async (req, res) => {
     try {
+        // Destructure the request body to get updated like details
         const { user_id, content_type, content_id } = req.body;
+        // Update the like with the specified ID
         const [updated] = await Like.update({ user_id, content_type, content_id }, {
             where: { like_id: req.params.id }
         });
         if (updated) {
+            // Fetch the updated like details
             const updatedLike = await Like.findByPk(req.params.id);
-            res.status(200).json(updatedLike);
+            // Respond with the updated like and a 200 status code
+            res.status(200).json(updatedLike); 
         } else {
-            res.status(404).json({ error: 'Like not found' });
+            // Respond with a 404 status code if the like is not found
+            res.status(404).json({ error: 'Like not found' }); 
         }
     } catch (error) {
-        console.error('Error updating like:', error);
-        res.status(500).json({ error: 'Error updating like' });
+        console.error('Error updating like:', error); // Log any errors to the console
+        // Respond with a 500 status code if an error occurs
+        res.status(500).json({ error: 'Error updating like' }); 
     }
 });
 
 // Delete a like
 router.delete('/:id', async (req, res) => {
     try {
+        // Delete the like with the specified ID
         const deleted = await Like.destroy({
             where: { like_id: req.params.id }
         });
         if (deleted) {
-            res.status(204).json();
+            // Respond with a 204 status code indicating successful deletion with no content
+            res.status(204).json(); 
         } else {
-            res.status(404).json({ error: 'Like not found' });
+            // Respond with a 404 status code if the like is not found
+            res.status(404).json({ error: 'Like not found' }); 
         }
     } catch (error) {
-        console.error('Error deleting like:', error);
-        res.status(500).json({ error: 'Error deleting like' });
+        console.error('Error deleting like:', error); // Log any errors to the console
+        // Respond with a 500 status code if an error occurs
+        res.status(500).json({ error: 'Error deleting like' }); 
     }
 });
 
-module.exports = router;
+module.exports = router; // Export the router to be used in other parts of the application

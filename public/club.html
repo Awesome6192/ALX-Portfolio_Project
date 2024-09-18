@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Character encoding for the document -->
     <meta charset="UTF-8">
+    <!-- Title of the webpage displayed on the browser tab -->
     <title>FanFaction Clubs</title>
+    <!-- Viewport settings for responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to Google Material Icons for using icon fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/club.css"> <!-- Link to the external CSS file -->
+    <!-- Link to the external CSS file for styling -->
+    <link rel="stylesheet" href="css/club.css">
 </head>
 <body>
     <!-- Hamburger Menu -->
     <div class="hamburger-menu">
-        <i class="material-icons">menu</i> <!-- Material icon for hamburger menu -->
+        <!-- Material icon for the hamburger menu, which toggles the sidebar -->
+        <i class="material-icons">menu</i>
     </div>
 
+    <!-- Sidebar -->
     <div class="sidebar">
+        <!-- Navigation links with Material icons for different sections of the app -->
         <a href="home.html"><i class="material-icons">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
@@ -23,28 +31,37 @@
         <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
     
+    <!-- Main club container -->
     <div id="club-container">
+        <!-- Club list, where different clubs can be displayed -->
         <div id="club-list">
-            <!-- Placeholder for club items -->
+            <!-- Placeholder for club items that will be added dynamically -->
         </div>
         
+        <!-- Club information section -->
         <div id="club-window">
+            <!-- Header for the club information section -->
             <div id="club-header">
+                <!-- Material icon for the club information header -->
                 <i class="material-icons">sports_soccer</i> Club Info
             </div>
             
+            <!-- Container for displaying club information -->
             <div id="club-content">
-                <!-- Club information will be inserted here by JavaScript -->
+                <!-- Club information will be dynamically inserted here by JavaScript -->
             </div>
             
+            <!-- Input section for adding new club information -->
             <div id="club-input-container">
-                <!-- Club information input -->
+                <!-- Textarea for typing new information about the club -->
                 <textarea id="club-content-input" placeholder="Add information about the club..."></textarea>
+                <!-- Button to submit the new club information -->
                 <button id="submit-club-info">Submit</button>
             </div>
         </div>
     </div>
 
+    <!-- Link to the external JavaScript file for club functionality -->
     <script src="js/club.js"></script>
 </body>
 </html>

@@ -1,37 +1,37 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Ensure the path to your database config is correct
-const User = require('./user'); // Ensure the User model is imported correctly
+const { DataTypes } = require('sequelize'); // Import DataTypes from Sequelize to define the model attributes
+const sequelize = require('../config/database'); // Import the configured Sequelize instance from the database configuration
+const User = require('./user'); // Import the User model to set up the foreign key reference
 
 // Define the Post model
 const Post = sequelize.define('Post', {
     post_id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        field: 'post_id' // Matches the database column name
+        type: DataTypes.INTEGER, // Define the type of the 'post_id' column as an integer
+        primaryKey: true, // Set this column as the primary key for the model
+        autoIncrement: true, // Automatically increment this column's value with each new record
+        field: 'post_id' // Ensure the column name matches the database column name
     },
     user_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.INTEGER, // Define the type of the 'user_id' column as an integer
+        allowNull: false, // This column cannot be null
         references: {
-            model: User, // Reference the User model
-            key: 'user_id' // Ensure this matches the primary key of the User model
+            model: User, // Reference the User model to establish a foreign key relationship
+            key: 'user_id' // Reference the 'user_id' column in the User model
         },
-        onDelete: 'CASCADE',  // Optional: Set behavior when the associated user is deleted
-        onUpdate: 'CASCADE'   // Optional: Handle updates in the foreign key
+        onDelete: 'CASCADE', // Optional: Automatically delete posts if the associated user is deleted
+        onUpdate: 'CASCADE'  // Optional: Automatically update the 'user_id' if the corresponding user ID changes
     },
     content: {
-        type: DataTypes.TEXT,
-        allowNull: false
+        type: DataTypes.TEXT, // Define the type of the 'content' column as text
+        allowNull: false // This column cannot be null, meaning every post must have content
     },
     image_url: {
-        type: DataTypes.STRING, // Use STRING to store the URL or file path
-        allowNull: true        // Set to true if the image is optional
+        type: DataTypes.STRING, // Define the type of the 'image_url' column as a string to store URLs or file paths
+        allowNull: true // This column can be null, indicating that an image is optional for a post
     }
 }, {
-    timestamps: true,        // Automatically adds createdAt and updatedAt
-    underscored: true,       // Uses snake_case column names in the database
-    tableName: 'post'        // Ensure the table name matches the database table
+    timestamps: true, // Automatically handles 'createdAt' and 'updatedAt' timestamps
+    underscored: true, // Uses snake_case for column names (e.g., 'post_id' instead of 'postId')
+    tableName: 'post' // Specifies the table name in the database
 });
 
-module.exports = Post;
+module.exports = Post; // Export the Post model for use in other parts of the application

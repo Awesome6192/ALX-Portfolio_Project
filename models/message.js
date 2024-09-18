@@ -8,11 +8,11 @@ const Message = sequelize.define('Message', {
     primaryKey: true,
     autoIncrement: true,
   },
-  chatId: {
+  chat_id: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  userId: {
+  user_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },

@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Specifies the character encoding for the HTML document -->
     <meta charset="UTF-8">
+    <!-- Sets the title of the webpage displayed in the browser tab -->
     <title>User Profile</title>
+    <!-- Ensures the page is responsive on different devices by setting the viewport width -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Links to Google Material Icons for using icon fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="css/profile.css"> <!-- Link to the external CSS file -->
+    <!-- Links to an external stylesheet for styling the User Profile page -->
+    <link rel="stylesheet" href="css/profile.css">
 </head>
 <body>
 
+    <!-- Hamburger Menu for navigation -->
     <div class="hamburger-menu">
-        <i class="material-icons">menu</i> <!-- Material icon for hamburger menu -->
+        <!-- Material icon for the hamburger menu, typically used for mobile navigation -->
+        <i class="material-icons">menu</i>
     </div>
     
+    <!-- Sidebar containing navigation links -->
     <div class="sidebar">
+        <!-- Links to various sections of the website with corresponding Material icons -->
         <a href="home.html"><i class="material-icons">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
@@ -23,11 +32,16 @@
         <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
 
+    <!-- Main content area for user profile information -->
     <div id="container-profile">
+        <!-- Title section for the profile page -->
         <div id="title">
+            <!-- Icon and text for the user profile page header -->
             <i class="material-icons">person</i> User Profile
         </div>
+        <!-- Section displaying user profile information -->
         <div id="profile-info">
+            <!-- Placeholder elements for user profile details -->
             <h3 id="username">Username: Loading...</h3>
             <p id="email">Email: Loading...</p>
             <p id="favorite-club">Favorite Club: Loading...</p>
@@ -35,6 +49,7 @@
         </div>
     </div>
 
+    <!-- Link to an external JavaScript file for dynamic functionality -->
     <script src="js/profile.js"></script>
 </body>
 </html>

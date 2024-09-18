@@ -1,18 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const submitPostButton = document.getElementById('submit-post');
-    const postContentTextarea = document.getElementById('post-content');
-    const postList = document.getElementById('post-list');
-    const imageUpload = document.getElementById('image-upload');
-    const videoUpload = document.getElementById('video-upload');
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-    const sidebar = document.querySelector('.sidebar');
+    // Get references to DOM elements
+    const submitPostButton = document.getElementById('submit-post'); // Button to submit a new post
+    const postContentTextarea = document.getElementById('post-content'); // Textarea for post content
+    const postList = document.getElementById('post-list'); // Element to display the list of posts
+    const imageUpload = document.getElementById('image-upload'); // File input for image upload
+    const videoUpload = document.getElementById('video-upload'); // File input for video upload
+    const hamburgerMenu = document.querySelector('.hamburger-menu'); // Hamburger menu for sidebar toggle
+    const sidebar = document.querySelector('.sidebar'); // Sidebar element
 
+    // Toggle sidebar visibility when hamburger menu is clicked
     hamburgerMenu.addEventListener('click', () => {
         sidebar.classList.toggle('open');
     });
-    
 
-    // Debounce function to limit the rate of fetch requests
+    /**
+     * Debounce function to limit the rate of function execution.
+     * @param {Function} func - The function to debounce.
+     * @param {number} wait - The delay in milliseconds.
+     * @returns {Function} - A debounced version of the input function.
+     */
     function debounce(func, wait) {
         let timeout;
         return function(...args) {
@@ -25,12 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // Function to fetch and display posts
+    /**
+     * Fetch and display posts from the server.
+     */
     async function fetchPosts() {
         try {
             const response = await fetch('/api/posts', {
                 method: 'GET',
-                credentials: 'include'  // Ensure cookies are sent with the request
+                credentials: 'include' // Include cookies in the request
             });
 
             if (!response.ok) {
@@ -52,7 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to display posts
+    /**
+     * Display a list of posts in the postList element.
+     * @param {Array} posts - Array of post objects to display.
+     */
     function displayPosts(posts) {
         postList.innerHTML = '';
         posts.forEach(post => {
@@ -83,22 +94,25 @@ document.addEventListener('DOMContentLoaded', () => {
             postList.appendChild(postItem);
         });
 
-        // Add event listeners for comments and likes
+        // Add event listeners for likes and comments with debounce
         document.querySelectorAll('.like-button').forEach(button => {
-            button.addEventListener('click', debounce(handleLike, 300)); // Added debounce
+            button.addEventListener('click', debounce(handleLike, 300)); // Debounced like button handler
         });
         document.querySelectorAll('.submit-comment-button').forEach(button => {
-            button.addEventListener('click', debounce(handleComment, 300)); // Added debounce
+            button.addEventListener('click', debounce(handleComment, 300)); // Debounced comment button handler
         });
     }
 
-    // Function to handle liking a post
+    /**
+     * Handle liking a post.
+     * @param {Event} event - The click event.
+     */
     async function handleLike(event) {
         const postId = event.target.dataset.postId;
         try {
             const response = await fetch(`/api/posts/${postId}/like`, {
                 method: 'POST',
-                credentials: 'include'  // Ensure cookies are sent with the request
+                credentials: 'include' // Include cookies in the request
             });
 
             if (!response.ok) {
@@ -115,7 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to handle commenting on a post
+    /**
+     * Handle commenting on a post.
+     * @param {Event} event - The click event.
+     */
     async function handleComment(event) {
         const postId = event.target.dataset.postId;
         const commentInput = document.querySelector(`#comments-${postId} .comment-input`);
@@ -127,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 
                         'Content-Type': 'application/json'
                     },
-                    credentials: 'include',  // Ensure cookies are sent with the request
+                    credentials: 'include', // Include cookies in the request
                     body: JSON.stringify({ content })
                 });
 
@@ -149,14 +166,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Function to create a new post with validation
+    /**
+     * Create a new post with content, image, and video.
+     * @param {string} content - Post content.
+     * @param {File} [imageFile] - Optional image file.
+     * @param {File} [videoFile] - Optional video file.
+     */
     async function createPost(content, imageFile, videoFile) {
-        if (imageFile && imageFile.size > 5 * 1024 * 1024) {
+        if (imageFile && imageFile.size > 5 * 1024 * 1024) { // Image size limit is 5MB
             showNotification('Image file is too large. Max size is 5MB.', 'error');
             return;
         }
 
-        if (videoFile && videoFile.size > 10 * 1024 * 1024) {
+        if (videoFile && videoFile.size > 10 * 1024 * 1024) { // Video size limit is 10MB
             showNotification('Video file is too large. Max size is 10MB.', 'error');
             return;
         }
@@ -170,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('/api/posts', {
                 method: 'POST',
                 body: formData,
-                credentials: 'include'  // Ensure cookies are sent with the request
+                credentials: 'include' // Include cookies in the request
             });
 
             if (!response.ok) {
@@ -189,9 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add event listener to the submit post button
     submitPostButton.addEventListener('click', () => {
-        const content = postContentTextarea.value.trim();
-        const imageFile = imageUpload.files[0];
-        const videoFile = videoUpload.files[0];
+        const content = postContentTextarea.value.trim(); // Get post content
+        const imageFile = imageUpload.files[0]; // Get selected image file
+        const videoFile = videoUpload.files[0]; // Get selected video file
 
         if (content || imageFile || videoFile) {
             createPost(content, imageFile, videoFile);
@@ -201,11 +223,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    /**
+     * Refresh the page.
+     */
     function refreshPage() {
         window.location.reload();
     }
 
-    // Function to show notifications
+    /**
+     * Show a notification to the user.
+     * @param {string} message - The notification message.
+     * @param {string} type - The type of notification (e.g., 'error', 'success').
+     */
     function showNotification(message, type) {
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
@@ -213,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(notification);
         setTimeout(() => {
             notification.remove();
-        }, 3000);
+        }, 3000); // Remove notification after 3 seconds
     }
 
     // Load posts when the page loads

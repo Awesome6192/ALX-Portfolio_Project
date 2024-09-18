@@ -1,48 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Declares the document type and version (HTML5) -->
     <meta charset="UTF-8">
+    <!-- Sets the title of the webpage displayed in the browser tab -->
     <title>Settings</title>
+    <!-- Ensures the page is responsive on different devices by setting the viewport width -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Links to Google Material Icons for using icon fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Links to an external stylesheet for specific styling related to the settings page -->
     <link rel="stylesheet" href="css/settings.css"> <!-- Link to the external CSS file -->
 </head>
 <body>
     <!-- Hamburger Menu -->
     <div class="hamburger-menu">
-        <i class="material-icons">menu</i> <!-- Material icon for hamburger menu -->
+        <!-- Material icon for hamburger menu -->
+        <i class="material-icons">menu</i>
     </div>
     
+    <!-- Sidebar with navigation links -->
     <div class="sidebar">
+        <!-- Link to the home page -->
         <a href="home.html"><i class="material-icons" id="home-icon">home</i> Home</a>
+        <!-- Link to the search page -->
         <a href="search.html"><i class="material-icons">search</i> Search</a>
+        <!-- Link to the chat page -->
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
+        <!-- Link to the clubs page -->
         <a href="club.html"><i class="material-icons">sports_soccer</i> Clubs</a>
+        <!-- Link to the notifications page -->
         <a href="notifications.html"><i class="material-icons">notifications</i> Notifications</a>
+        <!-- Link to the user profile page -->
         <a href="profile.html"><i class="material-icons">account_circle</i> Profile</a>
+        <!-- Link to the settings page (active link) -->
         <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
     
+    <!-- Main container for the settings functionality -->
     <div id="container-settings">
+        <!-- Title for the settings page -->
         <div id="title">
+            <!-- Material icon and title for the settings page -->
             <i class="material-icons">settings</i> Settings
         </div>
+        <!-- Form for updating user settings -->
         <form class="settings-form">
+            <!-- Input for changing username -->
             <label for="username">Change Username</label>
             <input type="text" id="username" name="username" placeholder="Enter your new username">
 
+            <!-- Input for changing email -->
             <label for="email">Change Email</label>
             <input type="email" id="email" name="email" placeholder="Enter your new email">
 
+            <!-- Input for previous password -->
             <label for="previous-password">Previous Password</label>
             <input type="password" id="previous-password" name="previous-password" placeholder="Enter your previous password">
 
+            <!-- Input for new password -->
             <label for="new-password">New Password</label>
             <input type="password" id="new-password" name="new-password" placeholder="Enter a new password">
 
+            <!-- Input for confirming new password -->
             <label for="confirm-password">Confirm New Password</label>
             <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your new password">
 
+            <!-- Dropdown for selecting preferred language -->
             <label for="language">Preferred Language</label>
             <select id="language" name="language">
                 <option value="en">English</option>
@@ -54,6 +78,7 @@
                 <!-- Add more options as needed -->
             </select>
 
+            <!-- Button to submit the form and save changes -->
             <button type="submit">Save Changes</button>
         </form>
 
@@ -61,6 +86,7 @@
         <button id="logout-button" class="logout-button">Logout</button>
     </div>
 
+    <!-- Links to an external JavaScript file for additional functionality -->
     <script src="js/settings.js"></script>
 </body>
 </html>

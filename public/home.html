@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Character encoding for the document -->
     <meta charset="UTF-8">
+    <!-- Title of the webpage displayed on the browser tab -->
     <title>FanFaction Feed</title>
+    <!-- Viewport settings for responsive design -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to the external CSS file for styling -->
     <link rel="stylesheet" href="css/home.css">
+    <!-- Link to Google Material Icons for using icon fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
+    <!-- Hamburger Menu -->
     <div class="hamburger-menu">
+        <!-- Material icon for the hamburger menu, which toggles the sidebar -->
         <i class="material-icons">menu</i>
     </div>
     
+    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
+        <!-- Navigation links with Material icons for different sections of the app -->
         <a href="home.html"><i class="material-icons" onclick="refreshPage()">home</i> Home</a>
         <a href="search.html"><i class="material-icons">search</i> Search</a>
         <a href="chat.html"><i class="material-icons">chat</i> Chats</a>
@@ -21,29 +30,43 @@
         <a href="profile.html"><i class="material-icons">account_circle</i> Profile</a>
         <a href="settings.html"><i class="material-icons">settings</i> Settings</a>
     </div>
+    
+    <!-- Main container for the feed page -->
     <div id="container-main">
+        <!-- Title of the feed page -->
         <div id="title">
+            <!-- Material icon and title for the feed page -->
             <i class="material-icons">sports_soccer</i> FanFaction Feed
         </div>
+        
+        <!-- Form for creating new posts -->
         <div class="post-creation-form">
+            <!-- Textarea for typing new post content -->
             <textarea id="post-content" placeholder="What's happening?"></textarea>
+            <!-- File upload for images -->
             <div class="file-upload">
                 <label for="image-upload" class="upload-label">Upload Image</label>
                 <input type="file" id="image-upload" accept="image/*">
             </div>
+            <!-- File upload for videos -->
             <div class="file-upload">
                 <label for="video-upload" class="upload-label">Upload Video</label>
                 <input type="file" id="video-upload" accept="video/*">
             </div>
+            <!-- Button to submit the post -->
             <button id="submit-post">Post</button>
         </div>
+        
+        <!-- List of posts -->
         <ul id="post-list" class="post-list">
-            <!-- Example Post Structure -->
+            <!-- Example post item structure -->
             <li class="post-item">
+                <!-- Header section of the post with user avatar and name -->
                 <div class="post-header">
                     <img src="path-to-user-avatar.jpg" alt="User Avatar">
                     <h3>User Name</h3>
                 </div>
+                <!-- Main content of the post, including text, images, and videos -->
                 <div class="post-content">
                     <p>This is a sample post content. It might include text, images, or videos.</p>
                     <img class="post-media" src="path-to-post-image.jpg" alt="Post Image">
@@ -51,20 +74,25 @@
                         <source src="path-to-post-video.mp4" type="video/mp4">
                     </video>
                 </div>
+                <!-- Footer section of the post with like and comment buttons -->
                 <div class="post-footer">
                     <button class="like-button">Like</button>
                     <button class="comment-button">Comment</button>
                 </div>
+                <!-- Comments section for the post -->
                 <div class="comments-section">
                     <div class="comment-item">Comment 1: This is a sample comment.</div>
                     <div class="comment-item">Comment 2: Another comment.</div>
+                    <!-- Textarea for adding a new comment -->
                     <textarea class="comment-input" placeholder="Add a comment..."></textarea>
+                    <!-- Button to submit the new comment -->
                     <button class="submit-comment-button">Submit Comment</button>
                 </div>
             </li>
         </ul>
     </div>
     
+    <!-- Link to the external JavaScript file for feed functionality -->
     <script src="js/feed.js"></script>
 </body>
 </html>
