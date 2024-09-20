@@ -24,7 +24,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 170px; /* Consistent with chat container */
+    width: 170px;
     height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     display: flex;
@@ -60,12 +60,12 @@ body {
 }
 
 #container-profile {
-    background-color: rgb(10, 10, 10); /* Dark background for the profile container */
-    width: calc(100% - 200px); /* Adjust width to account for sidebar */
-    margin-left: 200px; /* Push the content to the right of the sidebar */
+    background-color: rgb(10, 10, 10);
+    width: calc(100% - 200px);
+    margin-left: 200px;
     padding: 20px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    color: #FFD700; /* Golden color for text */
+    color: #FFD700;
     display: flex;
     flex-direction: column;
     justify-content: top;
@@ -98,63 +98,4 @@ body {
 #profile-info h3 {
     font-size: 22px;
     color: #FFD700;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        transform: translateY(-100%);
-    }
-
-    .sidebar.open {
-        transform: translateY(0);
-    }
-
-    #chat-container {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    #chat-list {
-        width: 100%;
-        margin-right: 0;
-    }
-
-    #chat-window {
-        padding: 10px;
-    }
-
-    #message-content {
-        font-size: 14px;
-    }
-
-    #send-message {
-        font-size: 14px;
-        padding: 8px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hamburger-menu {
-        font-size: 30px;
-    }
-
-    .sidebar a {
-        font-size: 16px;
-    }
-
-    #chat-header {
-        font-size: 20px;
-    }
-
-    #message-content {
-        font-size: 14px;
-    }
-
-    #send-message {
-        font-size: 14px;
-        padding: 8px;
-    }
 }

@@ -1,3 +1,4 @@
+// Import the necessary modules
 const express = require('express'); // Import the Express library
 const router = express.Router(); // Create a new router instance
 const Notification = require('../models/notification'); // Import the Notification model from the models directory
@@ -7,8 +8,10 @@ router.post('/', async (req, res) => {
     try {
         // Extract user_id and message from the request body
         const { user_id, message } = req.body;
+
         // Create a new notification record in the database
         const newNotification = await Notification.create({ user_id, message });
+
         // Respond with the newly created notification and a 201 status code
         res.status(201).json(newNotification);
     } catch (error) {
@@ -23,14 +26,17 @@ router.get('/', async (req, res) => {
     try {
         // Extract user_id from the query parameters
         const { user_id } = req.query;
+
         // Ensure user_id is provided
         if (!user_id) {
             return res.status(400).json({ error: 'User ID is required' });
         }
+
         // Fetch all notifications associated with the given user_id
         const notifications = await Notification.findAll({
             where: { user_id }
         });
+
         // Respond with the list of notifications and a 200 status code
         res.status(200).json(notifications);
     } catch (error) {
@@ -40,11 +46,11 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get a notification by ID
-router.get('/:id', async (req, res) => {
+// Get a notification by notification_id
+router.get('/:notification_id', async (req, res) => {
     try {
-        // Fetch a notification by its primary key (ID)
-        const notification = await Notification.findByPk(req.params.id);
+        // Fetch a notification by its primary key (notification_id)
+        const notification = await Notification.findByPk(req.params.notification_id);
         if (notification) {
             // Respond with the notification details and a 200 status code if found
             res.status(200).json(notification);
@@ -60,17 +66,19 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update a notification
-router.put('/:id', async (req, res) => {
+router.put('/:notification_id', async (req, res) => {
     try {
         // Extract updated message and read status from the request body
         const { message, read } = req.body;
-        // Update the notification with the specified ID
+
+        // Update the notification with the specified notification_id
         const [updated] = await Notification.update({ message, read }, {
-            where: { notification_id: req.params.id }
+            where: { notification_id: req.params.notification_id }
         });
+        
         if (updated) {
             // Fetch the updated notification details
-            const updatedNotification = await Notification.findByPk(req.params.id);
+            const updatedNotification = await Notification.findByPk(req.params.notification_id);
             // Respond with the updated notification and a 200 status code
             res.status(200).json(updatedNotification);
         } else {
@@ -85,12 +93,13 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete a notification
-router.delete('/:id', async (req, res) => {
+router.delete('/:notification_id', async (req, res) => {
     try {
-        // Delete the notification with the specified ID
+        // Delete the notification with the specified notification_id
         const deleted = await Notification.destroy({
-            where: { notification_id: req.params.id }
+            where: { notification_id: req.params.notification_id }
         });
+        
         if (deleted) {
             // Respond with a 204 status code indicating successful deletion with no content
             res.status(204).json();
@@ -105,4 +114,5 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-module.exports = router; // Export the router to be used in other parts of the application
+// Export the router to be used in other parts of the application
+module.exports = router; 

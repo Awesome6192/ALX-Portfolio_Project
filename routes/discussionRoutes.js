@@ -1,5 +1,6 @@
+// Import the necessary modules
 const express = require('express'); // Import the Express library
-const router = express.Router(); // Create a new router object
+const router = express.Router(); // Create a new router instance
 const Discussion = require('../models/discussion'); // Import the Discussion model from the models directory
 
 // Create a new discussion
@@ -7,8 +8,10 @@ router.post('/', async (req, res) => {
     try {
         // Destructuring the request body to get discussion details
         const { user_id, club_id, title, body } = req.body; 
+        
         // Creating a new discussion record in the database
         const newDiscussion = await Discussion.create({ user_id, club_id, title, body });
+        
         // Responding with the created discussion and a 201 status code
         res.status(201).json(newDiscussion); 
     } catch (error) {
@@ -23,6 +26,7 @@ router.get('/', async (req, res) => {
     try {
         // Fetching all discussions from the database
         const discussions = await Discussion.findAll();
+        
         // Responding with the list of discussions and a 200 status code
         res.status(200).json(discussions); 
     } catch (error) {
@@ -32,11 +36,11 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get a discussion by ID
-router.get('/:id', async (req, res) => {
+// Get a discussion by discussion_id
+router.get('/:discussion_id', async (req, res) => {
     try {
-        // Fetching a discussion by its primary key (ID)
-        const discussion = await Discussion.findByPk(req.params.id); 
+        // Fetching a discussion by its primary key (discussion_id)
+        const discussion = await Discussion.findByPk(req.params.discussion_id); 
         if (discussion) {
             // Responding with the discussion details and a 200 status code if found
             res.status(200).json(discussion); 
@@ -52,17 +56,20 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update a discussion
-router.put('/:id', async (req, res) => {
+router.put('/:discussion_id', async (req, res) => {
     try {
         // Destructuring the request body to get updated discussion details
         const { title, body } = req.body; 
-        // Updating the discussion with the specified ID
+        
+        // Updating the discussion with the specified discussion_id
         const [updated] = await Discussion.update({ title, body }, {
-            where: { discussion_id: req.params.id }
+            where: { discussion_id: req.params.discussion_id }
         });
+        
         if (updated) {
             // Fetching the updated discussion details
-            const updatedDiscussion = await Discussion.findByPk(req.params.id);
+            const updatedDiscussion = await Discussion.findByPk(req.params.discussion_id);
+            
             // Responding with the updated discussion and a 200 status code
             res.status(200).json(updatedDiscussion); 
         } else {
@@ -77,12 +84,13 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete a discussion
-router.delete('/:id', async (req, res) => {
+router.delete('/:discussion_id', async (req, res) => {
     try {
-        // Deleting the discussion with the specified ID
+        // Deleting the discussion with the specified discussion_id
         const deleted = await Discussion.destroy({
-            where: { discussion_id: req.params.id }
+            where: { discussion_id: req.params.discussion_id }
         });
+        
         if (deleted) {
             // Responding with a 204 status code indicating successful deletion with no content
             res.status(204).json(); 
@@ -97,4 +105,5 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-module.exports = router; // Exporting the router to be used in other parts of the application
+// Exporting the router to be used in other parts of the application
+module.exports = router; 

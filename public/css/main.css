@@ -1,6 +1,5 @@
-/* Existing styles */
 body {
-    background-color: #000; /* Black background for the whole page */
+    background-color: #000;
     font-family: 'Roboto', sans-serif;
     color: #fff;
     margin: 0;
@@ -41,7 +40,7 @@ body {
 
 input {
     width: 100%;
-    padding: 10px 15px 10px 50px; /* Adjusted padding to fit icon */
+    padding: 10px 15px 10px 50px;
     border: 2px solid #000000;
     border-radius: 5px;
     background: #fff;
@@ -95,7 +94,7 @@ input[type="submit"]:hover {
 }
 
 .forgot-password a, .privacy a, .register span {
-    color: #0004ff; /* Set text color to black */
+    color: #0004ff;
 }
 
 .register a {
@@ -117,7 +116,6 @@ input[type="submit"]:hover {
     background-color: #444;
 }
 
-/* New styles for specific text color changes */
 .login-register-text {
-    color: #000000; /* Black color for text */
+    color: #000000;
 }

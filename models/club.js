@@ -1,6 +1,6 @@
 // Import necessary modules from Sequelize
-const { DataTypes } = require('sequelize'); // Import DataTypes to define model attributes
-const sequelize = require('../config/database'); // Import configured Sequelize instance
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
 // Define the Club model
 const Club = sequelize.define('Club', {

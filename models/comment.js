@@ -1,8 +1,12 @@
 // Import necessary modules from Sequelize
-const { DataTypes } = require('sequelize'); // Import DataTypes to define model attributes
-const sequelize = require('../config/database'); // Import the configured Sequelize instance
-const User = require('./user'); // Import the User model for defining foreign key relationship
-const Discussion = require('./discussion'); // Import the Discussion model for defining foreign key relationship
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
+
+// Import the User model for defining foreign key relationship
+const User = require('./user');
+
+// Import the Discussion model for defining foreign key relationship
+const Discussion = require('./discussion');
 
 // Define the Comment model
 const Comment = sequelize.define('Comment', {
@@ -14,7 +18,7 @@ const Comment = sequelize.define('Comment', {
     },
     // Define the 'user_id' field
     user_id: {
-        type: DataTypes.INTEGER, // Specifies the data type as integer
+        type: DataTypes.INTEGER, // Define the 'user_id' column as an integer
         allowNull: false, // Indicates that this field cannot be null
         references: {
             model: User, // Specifies the User model for the foreign key relationship

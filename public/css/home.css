@@ -24,7 +24,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 170px; /* Consistent with chat container */
+    width: 170px;
     height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     display: flex;
@@ -60,18 +60,18 @@ body {
 }
 
 #container-main {
-    background: rgb(10, 10, 10); /* Dark background */
+    background: rgb(10, 10, 10);
     width: 100%;
     max-width: 800px;
     padding: 20px;
-    color: #ffcc00; /* Golden text */
+    color: #ffcc00;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align content to the top */
+    justify-content: flex-start;
     margin: 0;
-    min-height: 100vh; /* Ensure the container covers at least the full viewport height */
-    overflow-y: auto; /* Enable scrolling if content exceeds viewport height */
-    box-shadow: none; /* Remove box shadow */
+    min-height: 100vh;
+    overflow-y: auto;
+    box-shadow: none;
 }
 
 #title {
@@ -112,7 +112,7 @@ body {
 .upload-label {
     display: block;
     margin-bottom: 1px;
-    color: #ffcc00; /* Golden color for the label */
+    color: #ffcc00;
     font-size: 16px;
 }
 
@@ -136,8 +136,8 @@ input[type="file"] {
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    display: block; /* Make it a block element */
-    margin: 0 auto; /* Center horizontally */
+    display: block;
+    margin: 0 auto;
 }
 
 .post-creation-form button:hover {
@@ -234,63 +234,4 @@ input[type="file"] {
 
 .submit-comment-button:hover {
     background-color: #0056b3;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        transform: translateY(-100%);
-    }
-
-    .sidebar.open {
-        transform: translateY(0);
-    }
-
-    #chat-container {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    #chat-list {
-        width: 100%;
-        margin-right: 0;
-    }
-
-    #chat-window {
-        padding: 10px;
-    }
-
-    #message-content {
-        font-size: 14px;
-    }
-
-    #send-message {
-        font-size: 14px;
-        padding: 8px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hamburger-menu {
-        font-size: 30px;
-    }
-
-    .sidebar a {
-        font-size: 16px;
-    }
-
-    #chat-header {
-        font-size: 20px;
-    }
-
-    #message-content {
-        font-size: 14px;
-    }
-
-    #send-message {
-        font-size: 14px;
-        padding: 8px;
-    }
 }

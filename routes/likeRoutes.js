@@ -1,3 +1,4 @@
+// Import the necessary modules
 const express = require('express'); // Import the Express library
 const router = express.Router(); // Create a new router instance
 const Like = require('../models/like'); // Import the Like model from the models directory
@@ -7,8 +8,10 @@ router.post('/', async (req, res) => {
     try {
         // Destructure the request body to get like details
         const { user_id, content_type, content_id } = req.body; 
+        
         // Create a new like record in the database
         const newLike = await Like.create({ user_id, content_type, content_id });
+        
         // Respond with the created like and a 201 status code
         res.status(201).json(newLike); 
     } catch (error) {
@@ -23,14 +26,17 @@ router.get('/', async (req, res) => {
     try {
         // Extract content_type and content_id from query parameters
         const { content_type, content_id } = req.query;
+
         // Validate that both parameters are provided
         if (!content_type || !content_id) {
             return res.status(400).json({ error: 'Content type and content ID are required' });
         }
+        
         // Fetch all likes that match the provided content_type and content_id
         const likes = await Like.findAll({
             where: { content_type, content_id }
         });
+        
         // Respond with the list of likes and a 200 status code
         res.status(200).json(likes); 
     } catch (error) {
@@ -40,11 +46,11 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get a like by ID
-router.get('/:id', async (req, res) => {
+// Get a like by like_id
+router.get('/:like_id', async (req, res) => {
     try {
-        // Fetch a like by its primary key (ID)
-        const like = await Like.findByPk(req.params.id);
+        // Fetch a like by its primary key (like_id)
+        const like = await Like.findByPk(req.params.like_id);
         if (like) {
             // Respond with the like details and a 200 status code if found
             res.status(200).json(like); 
@@ -60,17 +66,19 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update a like
-router.put('/:id', async (req, res) => {
+router.put('/:like_id', async (req, res) => {
     try {
         // Destructure the request body to get updated like details
         const { user_id, content_type, content_id } = req.body;
-        // Update the like with the specified ID
+        
+        // Update the like with the specified like_id
         const [updated] = await Like.update({ user_id, content_type, content_id }, {
-            where: { like_id: req.params.id }
+            where: { like_id: req.params.like_id }
         });
+        
         if (updated) {
             // Fetch the updated like details
-            const updatedLike = await Like.findByPk(req.params.id);
+            const updatedLike = await Like.findByPk(req.params.like_id);
             // Respond with the updated like and a 200 status code
             res.status(200).json(updatedLike); 
         } else {
@@ -85,11 +93,11 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete a like
-router.delete('/:id', async (req, res) => {
+router.delete('/:like_id', async (req, res) => {
     try {
-        // Delete the like with the specified ID
+        // Delete the like with the specified like_id
         const deleted = await Like.destroy({
-            where: { like_id: req.params.id }
+            where: { like_id: req.params.like_id }
         });
         if (deleted) {
             // Respond with a 204 status code indicating successful deletion with no content
@@ -105,4 +113,5 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-module.exports = router; // Export the router to be used in other parts of the application
+// Export the router to be used in other parts of the application
+module.exports = router; 

@@ -1,3 +1,4 @@
+// Existing imports and setup code remain the same
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
@@ -25,23 +26,21 @@ const Message = require('./models/message');
 const Settings = require('./models/settings');
 
 // Import associations to define relationships between models
-require('./models/associations'); // This module should define all necessary associations between the models
+require('./models/associations');
 
 // Function to synchronize all models with the database
 const syncDatabase = async () => {
     try {
-        // Sync the models with the database
-        await sequelize.sync({ alter: true }); // Be cautious with { force: true } as it drops existing tables
+        await sequelize.sync({ alter: true });
         console.log('Database synchronized');
     } catch (error) {
         console.error('Error synchronizing database:', error);
-        process.exit(1); // Exit process if sync fails
+        process.exit(1);
     }
 };
 
 // Call the syncDatabase function to synchronize the models with the database
 syncDatabase().then(() => {
-    // Initiate app and server
     const app = express();
     const server = http.createServer(app);
     const io = socketIo(server);
@@ -56,7 +55,7 @@ syncDatabase().then(() => {
     app.use(session({
         secret: process.env.SESSION_SECRET || 'your-secret-key',
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
         cookie: { secure: false, httpOnly: true, sameSite: 'lax' }
     }));
 
@@ -77,7 +76,7 @@ syncDatabase().then(() => {
     const commentRoutes = require('./routes/commentRoutes');
     const postRoutes = require('./routes/postRoutes');
     const chatRoutes = require('./routes/chatRoutes');
-    const settingsRoutes = require('./routes/settingsRoutes'); // Import settings routes
+    const settingsRoutes = require('./routes/settingsRoutes');
 
     app.use('/api/discussions', discussionRoutes);
     app.use('/api/notifications', notificationRoutes);
@@ -87,7 +86,7 @@ syncDatabase().then(() => {
     app.use('/api/comments', commentRoutes);
     app.use('/api/posts', postRoutes);
     app.use('/api/messages', chatRoutes);
-    app.use('/api/settings', settingsRoutes); // Use settings routes
+    app.use('/api/settings', settingsRoutes);
 
     // Serve HTML files
     app.get('/profile', authMiddleware, (req, res) => {
@@ -105,32 +104,85 @@ syncDatabase().then(() => {
     // Handle errors
     app.use(errorHandler);
 
+    // Socket.IO middleware to authenticate users
+    io.use((socket, next) => {
+        const req = socket.request;
+        session({
+            secret: process.env.SESSION_SECRET || 'your-secret-key',
+            resave: false,
+            saveUninitialized: false,
+            cookie: { secure: false, httpOnly: true, sameSite: 'lax' }
+        })(socket.request, {}, (err) => {
+            if (err) return next(err);
+            next();
+        });
+    });
+
     // Socket.IO event handlers
     io.on('connection', (socket) => {
         console.log('New client connected');
 
+        // Check the session data
+        console.log('Session data:', socket.request.session);
+    
+        // Verify the user ID from the session
+        const currentUser_id = socket.request.session.user_id; // Fetch user_id from session
+        console.log('User connected with user_id:', currentUser_id);
+    
+        // Listen for the user_connected event
+        socket.on('user_connected', (data) => {
+            const { user_id } = data; // Extract user_id
+            if (user_id) {
+                console.log(`User connected with user_id: ${user_id}`);
+                // Store the user ID on the socket for future reference
+                socket.user_id = user_id; // Or store it in a way that suits your application
+            } else {
+                console.log('User not found');
+            }
+        });        
+    
+        // Event handler for joining a chat room
         socket.on('joinChat', (chat_id) => {
-            console.log(`User joined chat: ${chat_id}`);
-            socket.join(chat_id); // Join the chat room
+            if (currentUser_id) {
+                console.log(`User connected with user_id: ${currentUser_id}`);
+                // Add user to the chat room
+                socket.join(chat_id);
+                // Notify others in the chat
+                socket.to(chat_id).emit('userJoined', { user_id: currentUser_id });
+            } else {
+                console.error('User not found');
+            }
         });
 
+        // Event handler for sending a message
         socket.on('sendMessage', async (data) => {
-            console.log('Received message data:', data); // Debugging
-        
-            // Check if the content and chat_id are present
+            console.log('Received message data:', data); // General logging
+
+            // Log user_id for debugging
+            console.log('Received user ID (on server):', data.user_id);
+
+            // Validate and process the message data
             if (data.content && data.chat_id) {
                 // Convert user_id to integer if it is a string
                 if (typeof data.user_id === 'string') {
                     data.user_id = parseInt(data.user_id, 10);
                 }
-        
-                // Validate converted user_id
+
+                // Validate the user_id
                 if (typeof data.user_id === 'number' && !isNaN(data.user_id)) {
+                    // Emit the message to the specified chat room
                     io.to(data.chat_id).emit('receiveMessage', data);
-        
-                    // Optionally save message to database
+
+                    // Optionally save the message to the database
                     try {
-                        const message = await sequelize.models.Message.create(data);
+                        const messageData = {
+                            chat_id: data.chat_id,
+                            user_id: data.user_id,
+                            content: data.content,
+                            discussion_id: data.discussion_id || null,
+                        };
+
+                        const message = await sequelize.models.Message.create(messageData);
                         console.log('Message saved:', message); // Debugging
                     } catch (error) {
                         console.error('Error saving message:', error);
@@ -139,10 +191,16 @@ syncDatabase().then(() => {
                     console.error('Invalid user_id:', data.user_id);
                 }
             } else {
-                console.error('Message data is missing required fields:', data);
+                console.error('Message data is missing required fields:', {
+                    content: data.content,
+                    chat_id: data.chat_id,
+                    user_id: data.user_id,
+                    discussion_id: data.discussion_id, // Optional
+                });
             }
-        });            
-        
+        });
+
+        // Handle disconnection
         socket.on('disconnect', () => {
             console.log('Client disconnected');
         });

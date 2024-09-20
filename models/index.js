@@ -1,5 +1,3 @@
-'use strict';
-
 // Import required modules
 const fs = require('fs'); // File system module for reading files and directories
 const path = require('path'); // Path module for working with file and directory paths
