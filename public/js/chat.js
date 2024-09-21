@@ -3,13 +3,6 @@ const socket = io('http://localhost:3000', {
     withCredentials: true
 });
 
-// After successful login, set the currentUser_id
-currentUser_id = user.user_id; // Ensure this is set from the login response
-
-// Emit the user_connected event to notify the server with user ID
-console.log('Current User ID:', currentUser_id);
-socket.emit('user_connected', { user_id: currentUser_id });
-
 // Get references to DOM elements
 const messageList = document.getElementById('message-list'); // List to display messages
 const messageContent = document.getElementById('message-content'); // Input field for new messages
@@ -119,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatContainer = document.querySelector('#chat-container'); // Chat container element
 
     hamburgerMenu.addEventListener('click', () => {
+        console.log('Hamburger menu clicked'); // Debug log
         sidebar.classList.toggle('open'); // Toggle sidebar visibility
         chatContainer.classList.toggle('sidebar-open'); // Adjust chat container layout
     });

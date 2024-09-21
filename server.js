@@ -10,6 +10,7 @@ const socketIo = require('socket.io');
 const sequelize = require('./config/database');
 const authMiddleware = require('./middleware/authMiddleware');
 const errorHandler = require('./middleware/errorHandler');
+const sharedSession = require('socket.io-express-session');
 
 // Load environment variables
 dotenv.config();
@@ -51,13 +52,16 @@ syncDatabase().then(() => {
         credentials: true
     }));
 
-    // Session middleware
-    app.use(session({
+    // Define session middleware
+    const sessionMiddleware = session({
         secret: process.env.SESSION_SECRET || 'your-secret-key',
         resave: false,
         saveUninitialized: true,
         cookie: { secure: false, httpOnly: true, sameSite: 'lax' }
-    }));
+    });
+
+    // Use session middleware in Express
+    app.use(sessionMiddleware);
 
     // Middleware
     app.use(express.json());
@@ -104,30 +108,29 @@ syncDatabase().then(() => {
     // Handle errors
     app.use(errorHandler);
 
-    // Socket.IO middleware to authenticate users
-    io.use((socket, next) => {
-        const req = socket.request;
-        session({
-            secret: process.env.SESSION_SECRET || 'your-secret-key',
-            resave: false,
-            saveUninitialized: false,
-            cookie: { secure: false, httpOnly: true, sameSite: 'lax' }
-        })(socket.request, {}, (err) => {
-            if (err) return next(err);
-            next();
-        });
-    });
+    // Socket.IO middleware to authenticate users using sessionMiddleware
+    io.use(sharedSession(sessionMiddleware, {
+        autoSave: true
+    }));
 
     // Socket.IO event handlers
     io.on('connection', (socket) => {
         console.log('New client connected');
 
         // Check the session data
-        console.log('Session data:', socket.request.session);
+        const sessionData = socket.handshake.session; // Using handshake to access session
+        console.log('Session data:', sessionData);
     
         // Verify the user ID from the session
-        const currentUser_id = socket.request.session.user_id; // Fetch user_id from session
+        const currentUser_id = sessionData.user_id;
         console.log('User connected with user_id:', currentUser_id);
+
+        if (currentUser_id) {
+            // Proceed with user-specific logic
+            console.log(`User found with ID: ${currentUser_id}`);
+        } else {
+            console.log('User not found');
+        }
     
         // Listen for the user_connected event
         socket.on('user_connected', (data) => {
@@ -135,7 +138,7 @@ syncDatabase().then(() => {
             if (user_id) {
                 console.log(`User connected with user_id: ${user_id}`);
                 // Store the user ID on the socket for future reference
-                socket.user_id = user_id; // Or store it in a way that suits your application
+                socket.user_id = user_id;
             } else {
                 console.log('User not found');
             }
