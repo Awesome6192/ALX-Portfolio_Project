@@ -100,14 +100,14 @@ router.post('/login', loginValidationRules(), validate, async (req, res) => {
 
         // Set cookies for both token and user_id
         res.cookie('token', token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: false,
             sameSite: 'strict'
         });
 
         // Allow the frontend to access user_id by setting httpOnly: false
         res.cookie('user_id', user.user_id, {
-            httpOnly: true, // To prevent JavaScript access
+            httpOnly: false,
             secure: false,
             sameSite: 'strict'
         });
@@ -124,14 +124,14 @@ router.post('/logout', (req, res) => {
     try {
         // Clear the token cookie
         res.clearCookie('token', {
-            httpOnly: true,
+            httpOnly: false,
             secure: false,
             sameSite: 'strict'
         });
 
         // Clear the user_id cookie (if set)
         res.clearCookie('user_id', {
-            httpOnly: false,  // It was set with httpOnly: false
+            httpOnly: false,
             secure: false,
             sameSite: 'strict'
         });

@@ -83,61 +83,72 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Handle liking a post
-    async function handleLike(event) {
-        const postId = event.target.dataset.postId;
+    async function handleLike(postId) {
         try {
             const response = await fetch(`/api/posts/${postId}/like`, {
                 method: 'POST',
-                credentials: 'include' // Include cookies in the request
+                headers: {
+                    'Content-Type': 'application/json',
+                }
             });
-
+    
             if (!response.ok) {
                 const errorData = await response.json();
-                console.error('Like error data:', errorData);
-                throw new Error('Network response was not ok');
+                throw new Error(`Error liking post: ${errorData.error || response.statusText}`);
             }
-
-            // Refresh posts after liking
-            fetchPosts();
+    
+            const like = await response.json();
+            console.log('Like added:', like);
         } catch (error) {
             console.error('Error liking post:', error);
-            showNotification('Error liking post. Please try again later.', 'error');
         }
     }
+    
 
+    function getUserIdFromCookies() {
+        console.log('Current cookies:', document.cookie);
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [key, value] = cookie.trim().split('=');
+            if (key === 'user_id') {
+                const decodedValue = decodeURIComponent(value);
+                console.log('Found user_id:', decodedValue);
+                return decodedValue;
+            }
+        }
+        console.log('user_id not found');
+        return null;
+    }
+    
     // Handle commenting on a post
     async function handleComment(event) {
         const postId = event.target.dataset.postId;
         const commentInput = document.querySelector(`#comments-${postId} .comment-input`);
         const content = commentInput.value.trim();
-        if (content) {
-            try {
-                const response = await fetch(`/api/posts/${postId}/comments`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include', // Include cookies in the request
-                    body: JSON.stringify({ content })
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('Comment error data:', errorData);
-                    throw new Error('Network response was not ok');
-                }
-
-                // Clear comment input after submission
-                commentInput.value = '';
-
-                // Refresh posts after adding a comment
-                fetchPosts();
-            } catch (error) {
-                console.error('Error commenting on post:', error);
-                showNotification('Error commenting on post. Please try again later.', 'error');
-            }
+        const userId = getUserIdFromCookies();
+    
+        console.log('User ID:', userId);
+        console.log('Comment Content:', content);
+    
+        if (!userId || !content) {
+            console.error('Comment content or User ID is missing.');
+            return;
+        }
+    
+        try {
+            const response = await fetch(`/api/posts/${postId}/comments`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ user_id: userId, comment_text: content })
+            });
+    
+            // Handle response...
+        } catch (error) {
+            console.error('Error commenting on post:', error);
         }
     }
+    
 
     // Create a new post with content, image, and video
     async function createPost() {
@@ -146,22 +157,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const videoFile = videoUpload.files[0];
 
         const formData = new FormData();
-        if (content) formData.append('content', content); // Use 'content' field for the content
-        if (imageFile) formData.append('image', imageFile); // Use 'image' field for the image
-        if (videoFile) formData.append('video', videoFile); // Use 'video' field for the video
+        if (content) formData.append('content', content);
+        if (imageFile) formData.append('image', imageFile);
+        if (videoFile) formData.append('video', videoFile);
 
         try {
             const response = await fetch('/api/posts', {
                 method: 'POST',
                 body: formData,
-                credentials: 'include' // Include cookies in the request
+                credentials: 'include'
             });
 
             const data = await response.json();
             if (response.ok) {
                 console.log('Post created:', data);
                 // Refresh posts or update UI as needed
-                fetchPosts(); // Refresh the post list
+                fetchPosts();
             } else {
                 console.error('Error creating post:', data.error);
             }
@@ -172,10 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add event listener to the submit post button
     submitPostButton.addEventListener('click', () => {
-        createPost(); // Call createPost without parameters
-        postContentTextarea.value = ''; // Clear the textarea after submission
-        imageUpload.value = ''; // Clear the file input
-        videoUpload.value = ''; // Clear the file input
+        createPost();
+        postContentTextarea.value = '';
+        imageUpload.value = '';
+        videoUpload.value = '';
     });
 
     // Show a notification to the user
@@ -186,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(notification);
         setTimeout(() => {
             notification.remove();
-        }, 3000); // Remove notification after 3 seconds
+        }, 3000);
     }
 
     // Load posts when the page loads

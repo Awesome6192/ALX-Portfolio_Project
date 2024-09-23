@@ -1,24 +1,27 @@
 // Import the Post model from the associations models
 const { Post, User } = require('../models/associations');
 
+// Import multer for handling file uploads
 const multer = require('multer');
+
+// Import path to handle file paths
 const path = require('path');
 
 // Set up storage for images and videos
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Ensure you have a folder called "uploads"
+        cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Unique filenames with timestamps
+        cb(null, Date.now() + path.extname(file.originalname));
     }
 });
 
 // Specify which fields to accept for uploading
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 1024 * 1024 * 10 }, // Limit size to 10MB for example
-}).fields([{ name: 'image' }, { name: 'video' }]); // Multer will expect 'image' and 'video' fields
+    limits: { fileSize: 1024 * 1024 * 10 },
+}).fields([{ name: 'image' }, { name: 'video' }]);
 
 // Middleware for authentication (ensure you define this)
 const authMiddleware = require('../middleware/authMiddleware');
@@ -54,11 +57,11 @@ const getAllPosts = async (req, res) => {
 
 // Function to create a new post
 const createPost = async (req, res) => {
-    const { content } = req.body; // Get content from request body
+    const { content } = req.body;
     const image_url = req.files['image'] ? req.files['image'][0].path : null; 
     const video_url = req.files['video'] ? req.files['video'][0].path : null;
 
-    console.log('Authenticated user:', req.user); // Log req.user to see its structure
+    console.log('Authenticated user:', req.user);
 
     // Check if content is provided; if not, respond with a 400 status code
     if (!content) {
@@ -84,7 +87,7 @@ const createPost = async (req, res) => {
 // Function to edit an existing post
 const editPost = async (req, res) => {
     const { post_id } = req.params;
-    const { content } = req.body; // Only content here, handle image/video in a different way if needed
+    const { content } = req.body;
     const post = await Post.findByPk(post_id);
 
     if (!post) {

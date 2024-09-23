@@ -173,11 +173,12 @@ input[type="file"] {
 
 .post-header h3 {
     margin: 0;
-    color: #ffffff;
+    color: #ffcc00;
 }
 
 .post-content {
     font-size: 20px;
+    color: #fff;
     margin-bottom: 30px;
 }
 
@@ -189,7 +190,7 @@ input[type="file"] {
 .post-footer {
     display: flex;
     gap: 10px;
-    padding: 5px 0; /* Reduce top and bottom padding */
+    padding: 5px 0;
 }
 
 .post-footer button {
@@ -199,7 +200,7 @@ input[type="file"] {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    height: 50px; /* Set a fixed height if necessary */
+    height: 50px;
 }
 
 .post-footer button:hover {
