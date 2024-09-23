@@ -1,43 +1,49 @@
 // Import the necessary modules
 const express = require('express'); // Import the Express library
 const router = express.Router(); // Create a new router instance
+const authMiddleware = require('../middleware/authMiddleware');
 const Comment = require('../models/comment'); // Import the Comment model from the models directory
 
 // Create a new comment
-router.post('/', async (req, res) => {
+router.post('/posts/:post_id/comments', authMiddleware, async (req, res) => {
+    console.log('Request Body:', req.body); // Log the incoming request body
     try {
-        // Destructuring the request body to get comment details
-        const { user_id, discussion_id, content } = req.body; 
-        
-        // Creating a new comment record in the database
-        const newComment = await Comment.create({ user_id, discussion_id, content }); 
-        
-        // Responding with the created comment and a 201 status code
-        res.status(201).json(newComment); 
+        const { user_id, comment_text } = req.body;  // Extract user_id and comment_text from the request body
+        const postId = req.params.post_id;  // Get the post_id from the route params
+
+        if (!user_id || !comment_text || !postId) {
+            return res.status(400).json({ error: 'Missing required fields: user_id, comment_text, or post_id' });
+        }
+
+        // Create the new comment
+        const newComment = await Comment.create({
+            post_id: postId,
+            user_id: user_id,
+            comment_text: comment_text
+        });
+
+        res.status(201).json(newComment);  // Return the created comment
     } catch (error) {
-        console.error('Error creating comment:', error); // Logging errors to the console
-        res.status(500).json({ error: 'Error creating comment' }); // Responding with a 500 status code if creation fails
+        console.error('Error creating comment:', error);
+        res.status(500).json({ error: 'Error creating comment' });
     }
 });
 
-// Get all comments for a discussion
-router.get('/', async (req, res) => {
+// Get all comments
+router.get('/posts/:post_id/comments', authMiddleware, async (req, res) => {
     try {
-        const { discussion_id } = req.query; // Getting discussion ID from query parameters
-        if (!discussion_id) {
-            return res.status(400).json({ error: 'Discussion ID is required' }); // Responding with a 400 status code if discussion ID is missing
-        }
-        
-        // Fetching all comments associated with the given discussion ID
+        const postId = req.params.post_id;
+
+        // Fetch all comments for this post
         const comments = await Comment.findAll({
-            where: { discussion_id } 
+            where: { post_id: postId },
+            order: [['created_at', 'DESC']]  // Order comments by most recent
         });
-        
-        // Responding with the list of comments and a 200 status code
-        res.status(200).json(comments); 
+
+        res.status(200).json(comments);  // Return the list of comments
     } catch (error) {
-        console.error('Error fetching comments:', error); // Logging errors to the console
-        res.status(500).json({ error: 'Error fetching comments' }); // Responding with a 500 status code if fetching fails
+        console.error('Error fetching comments:', error);
+        res.status(500).json({ error: 'Error fetching comments' });
     }
 });
 

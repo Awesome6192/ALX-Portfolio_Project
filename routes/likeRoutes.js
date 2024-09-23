@@ -1,25 +1,33 @@
 // Import the necessary modules
 const express = require('express'); // Import the Express library
 const router = express.Router(); // Create a new router instance
+const authMiddleware = require('../middleware/authMiddleware');
 const Like = require('../models/like'); // Import the Like model from the models directory
 
 // Create a new like
-router.post('/', async (req, res) => {
+router.post('/:postId/like', async (req, res) => {
     try {
-        // Destructure the request body to get like details
-        const { user_id, content_type, content_id } = req.body; 
-        
+        const user_id = getUserIdFromCookies(); // Retrieve user_id from cookies
+        const postId = req.params.postId;
+
+        // Validate that user_id is found
+        if (!user_id) {
+            return res.status(400).json({ error: 'User ID not found' });
+        }
+
         // Create a new like record in the database
-        const newLike = await Like.create({ user_id, content_type, content_id });
-        
-        // Respond with the created like and a 201 status code
-        res.status(201).json(newLike); 
+        const newLike = await Like.create({
+            user_id,
+            post_id: postId // Store post_id instead of discussion_id
+        });
+
+        res.status(201).json(newLike);
     } catch (error) {
-        console.error('Error creating like:', error); // Log any errors to the console
-        // Respond with a 500 status code if an error occurs
-        res.status(500).json({ error: 'Error creating like' }); 
+        console.error('Error creating like:', error);
+        res.status(500).json({ error: 'Error creating like' });
     }
 });
+
 
 // Get all likes for a content type and ID
 router.get('/', async (req, res) => {
@@ -40,11 +48,11 @@ router.get('/', async (req, res) => {
         // Respond with the list of likes and a 200 status code
         res.status(200).json(likes); 
     } catch (error) {
-        console.error('Error fetching likes:', error); // Log any errors to the console
-        // Respond with a 500 status code if an error occurs
+        console.error('Error fetching likes:', error);
         res.status(500).json({ error: 'Error fetching likes' }); 
     }
 });
+
 
 // Get a like by like_id
 router.get('/:like_id', async (req, res) => {

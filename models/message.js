@@ -2,7 +2,7 @@
 const { DataTypes } = require('sequelize');
 
 // Import the sequelize instance from the database configuration file
-const sequelize = require('../config/database'); // Ensure this path is correct
+const sequelize = require('../config/database');
 
 // Define the Message model
 const Message = sequelize.define('Message', {

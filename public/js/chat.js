@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentUser_id = parseInt(rawUserId, 10); // Convert the raw value to integer
 
     if (rawUserId) {
-        console.log('Retrieved user_id from cookies:', currentUser_id); // Debug log
+        console.log('Retrieved user_id from cookies:', currentUser_id);
     } else {
         console.error('User ID cookie is missing or empty.');
     }
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
             messageElement.className = `message ${data.user_id === currentUser_id ? 'sent' : 'received'}`;
             messageElement.innerHTML = `<p>${data.content}</p>`;
             messageList.appendChild(messageElement);
-            messageList.scrollTop = messageList.scrollHeight; // Scroll to the bottom
+            messageList.scrollTop = messageList.scrollHeight;
         }
     });
 

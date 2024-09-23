@@ -5,11 +5,11 @@ const sequelize = require('../config/database');
 // Import the User model to define foreign key relationships
 const User = require('./user');
 
-// Import the Discussion model
-const Discussion = require('./discussion');
-
 // Import the Comment model
 const Comment = require('./comment');
+
+// Import the Post model
+const Post = require('./post');
 
 // Define the Like model
 const Like = sequelize.define('Like', {
@@ -29,12 +29,12 @@ const Like = sequelize.define('Like', {
         },
     },
     // Define the 'discussion_id' field
-    discussion_id: {
+    post_id: {
         type: DataTypes.INTEGER, // Specifies the data type as integer
         allowNull: true, // Indicates that this field cannot be null
         references: {
-            model: Discussion, // Specifies the Discussion model for the foreign key relationship
-            key: 'discussion_id', // The key in the Discussion model that this foreign key references
+            model: Post, // Specifies the Discussion model for the foreign key relationship
+            key: 'post_id', // The key in the Discussion model that this foreign key references
         },
     },
     // Define the 'comment_id' field

@@ -48,11 +48,6 @@ Settings.belongsTo(User, { foreignKey: 'user_id' });
 
 // Define associations for the Discussion model
 
-// A Discussion can have many Comments
-Discussion.hasMany(Comment, { foreignKey: 'discussion_id' });
-// A Comment belongs to one Discussion
-Comment.belongsTo(Discussion, { foreignKey: 'discussion_id' });
-
 // A Discussion can have many Likes
 Discussion.hasMany(Like, { foreignKey: 'discussion_id' });
 // A Like belongs to one Discussion

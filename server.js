@@ -99,7 +99,7 @@ syncDatabase().then(() => {
     });
 
     app.get('/posts', authMiddleware, (req, res) => {
-        res.sendFile(path.join(__dirname, 'public', 'home.html')); // Serve home.html for logged-in users
+        res.sendFile(path.join(__dirname, 'public', 'home.html'));
     });    
 
     app.get('/chat', authMiddleware, (req, res) => {
@@ -119,7 +119,7 @@ syncDatabase().then(() => {
         console.log('New client connected');
 
         // Check the session data
-        const sessionData = socket.handshake.session; // Using handshake to access session
+        const sessionData = socket.handshake.session;
         console.log('Session data:', sessionData);
     
         // Verify the user ID from the session
@@ -135,7 +135,7 @@ syncDatabase().then(() => {
     
         // Listen for the user_connected event
         socket.on('user_connected', (data) => {
-            const { user_id } = data; // Extract user_id
+            const { user_id } = data;
             if (user_id) {
                 console.log(`User connected with user_id: ${user_id}`);
                 // Store the user ID on the socket for future reference
@@ -191,7 +191,7 @@ syncDatabase().then(() => {
                         };
 
                         const message = await sequelize.models.Message.create(messageData);
-                        console.log('Message saved:', message); // Debugging
+                        console.log('Message saved:', message);
                     } catch (error) {
                         console.error('Error saving message:', error);
                     }
@@ -203,7 +203,7 @@ syncDatabase().then(() => {
                     content: data.content,
                     chat_id: data.chat_id,
                     user_id: data.user_id,
-                    discussion_id: data.discussion_id, // Optional
+                    discussion_id: data.discussion_id,
                 });
             }
         });
