@@ -22,8 +22,15 @@ const authMiddleware = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         console.log('Decoded token:', decoded);
 
+        // Ensure user_id is present in the decoded token
+        if (!decoded.user_id) {
+            console.error('Decoded token does not contain user_id');
+            return res.status(401).json({ error: 'Invalid token payload' });
+        }
+
         // Find the user associated with the token's ID
-        const user = await User.findByPk(decoded.id);
+        const user = await User.findByPk(decoded.user_id);
+        console.log('User retrieved:', user);
 
         // If no user is found, respond with a 401 Unauthorized error
         if (!user) {

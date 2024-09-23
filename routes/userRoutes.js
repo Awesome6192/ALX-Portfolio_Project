@@ -95,8 +95,23 @@ router.post('/login', loginValidationRules(), validate, async (req, res) => {
         // Log user ID for debugging
         console.log('User logged in with ID:', req.session.user_id);
 
+        // Create JWT token
         const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.cookie('token', token, { httpOnly: true, secure: false, sameSite: 'strict' });
+
+        // Set cookies for both token and user_id
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'strict'
+        });
+
+        // Allow the frontend to access user_id by setting httpOnly: false
+        res.cookie('user_id', user.user_id, {
+            httpOnly: true, // To prevent JavaScript access
+            secure: false,
+            sameSite: 'strict'
+        });
+
         res.json({ user_id: user.user_id });
     } catch (error) {
         console.error('Error logging in:', error.message);
@@ -107,17 +122,32 @@ router.post('/login', loginValidationRules(), validate, async (req, res) => {
 // Logout route
 router.post('/logout', (req, res) => {
     try {
-        // Clear the authentication cookie to log out
+        // Clear the token cookie
         res.clearCookie('token', {
             httpOnly: true,
             secure: false,
             sameSite: 'strict'
         });
 
-        res.status(200).json({ msg: 'Logged out successfully' }); // Respond with success message
+        // Clear the user_id cookie (if set)
+        res.clearCookie('user_id', {
+            httpOnly: false,  // It was set with httpOnly: false
+            secure: false,
+            sameSite: 'strict'
+        });
+
+        // Destroy the session (if using session management)
+        req.session.destroy(err => {
+            if (err) {
+                return res.status(500).json({ errors: [{ msg: 'Internal Server Error' }] });
+            }
+
+            // Respond with a success message
+            res.status(200).json({ msg: 'Logged out successfully' });
+        });
     } catch (error) {
         console.error('Error logging out:', error.message);
-        res.status(500).json({ error: 'Internal Server Error' }); // Handle server error
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

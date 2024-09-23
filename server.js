@@ -70,6 +70,7 @@ syncDatabase().then(() => {
 
     // Serve static files
     app.use(express.static(path.join(__dirname, 'public')));
+    app.use('/uploads', express.static('uploads'));
 
     // Import and use routes
     const discussionRoutes = require('./routes/discussionRoutes');
@@ -97,9 +98,9 @@ syncDatabase().then(() => {
         res.sendFile(path.join(__dirname, 'public', 'profile.html'));
     });
 
-    app.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    });
+    app.get('/posts', authMiddleware, (req, res) => {
+        res.sendFile(path.join(__dirname, 'public', 'home.html')); // Serve home.html for logged-in users
+    });    
 
     app.get('/chat', authMiddleware, (req, res) => {
         res.sendFile(path.join(__dirname, 'public', 'chat.html'));
@@ -159,10 +160,14 @@ syncDatabase().then(() => {
 
         // Event handler for sending a message
         socket.on('sendMessage', async (data) => {
-            console.log('Received message data:', data); // General logging
-
-            // Log user_id for debugging
-            console.log('Received user ID (on server):', data.user_id);
+            console.log('Received message data:', data);
+        
+            // Log received user ID for debugging
+            if (data.user_id === undefined) {
+                console.error('Received user ID is undefined!');
+            } else {
+                console.log('Received user ID:', data.user_id);
+            }
 
             // Validate and process the message data
             if (data.content && data.chat_id) {
