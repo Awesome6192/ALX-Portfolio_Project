@@ -1,7 +1,7 @@
-# .gitignore
 .env
 node_modules/
 package-lock.json
 package.json
+branch_structure.json
 temp_auto_push.bat
 temp_interactive_push.bat
